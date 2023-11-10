@@ -1,4 +1,0 @@
-inherited DsmProduto: TDsmProduto
-  Height = 330
-  Width = 718
-end
