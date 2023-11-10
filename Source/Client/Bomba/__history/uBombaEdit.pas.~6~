@@ -1,0 +1,34 @@
+unit uBombaEdit;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uPostoClientEdit, Data.DB,
+  System.Actions, Vcl.ActnList, Vcl.StdCtrls, Vcl.ExtCtrls, uBombaDAO, Vcl.Mask,
+  Vcl.DBCtrls;
+
+type
+  TBombaEdit = class(TPostoClientEdit)
+    Label1: TLabel;
+    DBEdit1: TDBEdit;
+    DBLookupComboBox1: TDBLookupComboBox;
+    dsTanque: TDataSource;
+    procedure DBLookupComboBox1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+implementation
+
+{$R *.dfm}
+
+procedure TBombaEdit.DBLookupComboBox1Click(Sender: TObject);
+begin
+  inherited;
+  DAO.DoConsultar;
+end;
+
+end.

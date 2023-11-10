@@ -1,0 +1,21 @@
+object DsmBase: TDsmBase
+  OldCreateOrder = False
+  Height = 481
+  Width = 784
+  object FDConnection: TFDConnection
+    Params.Strings = (
+      'DriverID=FB'
+      'Database=D:\Posto\POSTO.FDB'
+      'Password=masterkey'
+      'Server=localhost'
+      'User_Name=SYSDBA')
+    ConnectedStoredUsage = [auDesignTime]
+    LoginPrompt = False
+    Left = 392
+    Top = 112
+  end
+  object FDPhysFBDriverLink: TFDPhysFBDriverLink
+    Left = 544
+    Top = 112
+  end
+end

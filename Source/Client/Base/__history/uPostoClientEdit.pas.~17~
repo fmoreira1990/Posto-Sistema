@@ -1,0 +1,80 @@
+unit uPostoClientEdit;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, System.Actions, Vcl.ActnList,
+  Vcl.StdCtrls, Vcl.ExtCtrls, uPostoClientDAO, Vcl.Mask, Vcl.DBCtrls,
+  Data.DB, uPostoBase, uBaseIntf;
+
+type
+  TPostoClientEdit = class(TPostoBase)
+    ActionList: TActionList;
+    acSalvar: TAction;
+    acCancelar: TAction;
+    pnlTop: TPanel;
+    btnSalvar: TButton;
+    btnCancelar: TButton;
+    dsBase: TDataSource;
+    procedure acSalvarExecute(Sender: TObject);
+    procedure acCancelarExecute(Sender: TObject);
+    procedure acSalvarUpdate(Sender: TObject);
+  private
+    FDAO: IPostoClientDAO;
+    { Private declarations }
+  public
+    { Public declarations }
+    function CanPost: Boolean;
+    property DAO: IPostoClientDAO read FDAO write FDAO;
+  end;
+
+implementation
+
+uses
+  FireDAC.Comp.Client;
+
+{$R *.dfm}
+
+procedure TPostoClientEdit.acCancelarExecute(Sender: TObject);
+begin
+  if FDAO.DoCancelar(TFDMemTable(dsbase.DataSet)) then
+    Close
+end;
+
+procedure TPostoClientEdit.acSalvarExecute(Sender: TObject);
+begin
+  if FDAO.DoSalvar(TFDMemTable(dsbase.DataSet)) then
+    Close;
+end;
+
+procedure TPostoClientEdit.acSalvarUpdate(Sender: TObject);
+begin
+  TAction(Sender).Enabled := CanPost;
+end;
+
+function TPostoClientEdit.CanPost: Boolean;
+var
+  I: Integer;
+  LDataSet: TFDAdaptedDataSet;
+begin
+  Result := (FDAO.FDSchemaAdapter <> nil);
+  if Result then
+  begin
+    Result := False;
+    for I := 0 to FDAO.FDSchemaAdapter.Count - 1 do
+    begin
+      LDataSet := FDAO.FDSchemaAdapter.DataSets[I];
+      if (LDataSet.ChangeCount > 0) or (LDataSet.State in dsEditModes) then
+      begin
+        Result := True;
+        break;
+      end;
+    end;
+  end;
+end;
+
+end.
+
+
+

@@ -1,0 +1,355 @@
+// 
+// Created by the DataSnap proxy generator.
+// 08/11/2023 18:24:42
+// 
+
+unit ClientClassesUnit1;
+
+interface
+
+uses System.JSON, Datasnap.DSProxyRest, Datasnap.DSClientRest, Data.DBXCommon, Data.DBXClient, Data.DBXDataSnap, Data.DBXJSON, Datasnap.DSProxy, System.Classes, System.SysUtils, Data.DB, Data.SqlExpr, Data.DBXDBReaders, Data.DBXCDSReaders, Data.FireDACJSONReflect, Data.DBXJSONReflect;
+
+type
+
+  IDSRestCachedTFDJSONDataSets = interface;
+
+  TDsmBaseClient = class(TDSAdminRestClient)
+  private
+    FEchoStringCommand: TDSRestCommand;
+    FReverseStringCommand: TDSRestCommand;
+  public
+    constructor Create(ARestConnection: TDSRestConnection); overload;
+    constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
+    destructor Destroy; override;
+    function EchoString(Value: string; const ARequestFilter: string = ''): string;
+    function ReverseString(Value: string; const ARequestFilter: string = ''): string;
+  end;
+
+  TDsmProdutoClient = class(TDSAdminRestClient)
+  private
+    FProdutosCommand: TDSRestCommand;
+    FProdutosCommand_Cache: TDSRestCommand;
+    FupdateProdutosCommand: TDSRestCommand;
+    FupdateProdutosCommand_Cache: TDSRestCommand;
+    FacceptProdutosCommand: TDSRestCommand;
+    FacceptProdutosCommand_Cache: TDSRestCommand;
+    FcancelProdutosCommand: TDSRestCommand;
+    FcancelProdutosCommand_Cache: TDSRestCommand;
+    FEchoStringCommand: TDSRestCommand;
+    FReverseStringCommand: TDSRestCommand;
+  public
+    constructor Create(ARestConnection: TDSRestConnection); overload;
+    constructor Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean); overload;
+    destructor Destroy; override;
+    function Produtos(pIDProduto: Integer; const ARequestFilter: string = ''): TStream;
+    function Produtos_Cache(pIDProduto: Integer; const ARequestFilter: string = ''): IDSRestCachedTFDJSONDataSets;
+    function updateProdutos(const ARequestFilter: string = ''): TJSONArray;
+    function updateProdutos_Cache(const ARequestFilter: string = ''): IDSRestCachedJSONArray;
+    function acceptProdutos(pIDProduto: Integer; const ARequestFilter: string = ''): TJSONArray;
+    function acceptProdutos_Cache(pIDProduto: Integer; const ARequestFilter: string = ''): IDSRestCachedJSONArray;
+    function cancelProdutos(pIDProduto: Integer; const ARequestFilter: string = ''): TJSONArray;
+    function cancelProdutos_Cache(pIDProduto: Integer; const ARequestFilter: string = ''): IDSRestCachedJSONArray;
+    function EchoString(Value: string; const ARequestFilter: string = ''): string;
+    function ReverseString(Value: string; const ARequestFilter: string = ''): string;
+  end;
+
+  IDSRestCachedTFDJSONDataSets = interface(IDSRestCachedObject<TFDJSONDataSets>)
+  end;
+
+  TDSRestCachedTFDJSONDataSets = class(TDSRestCachedObject<TFDJSONDataSets>, IDSRestCachedTFDJSONDataSets, IDSRestCachedCommand)
+  end;
+
+const
+  TDsmBase_EchoString: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'Value'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
+  );
+
+  TDsmBase_ReverseString: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'Value'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
+  );
+
+  TDsmProduto_Produtos: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'pIDProduto'; Direction: 1; DBXType: 6; TypeName: 'Integer'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TFDJSONDataSets')
+  );
+
+  TDsmProduto_Produtos_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'pIDProduto'; Direction: 1; DBXType: 6; TypeName: 'Integer'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDsmProduto_updateProdutos: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TJSONArray')
+  );
+
+  TDsmProduto_updateProdutos_Cache: array [0..0] of TDSRestParameterMetaData =
+  (
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDsmProduto_acceptProdutos: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'pIDProduto'; Direction: 1; DBXType: 6; TypeName: 'Integer'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TJSONArray')
+  );
+
+  TDsmProduto_acceptProdutos_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'pIDProduto'; Direction: 1; DBXType: 6; TypeName: 'Integer'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDsmProduto_cancelProdutos: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'pIDProduto'; Direction: 1; DBXType: 6; TypeName: 'Integer'),
+    (Name: ''; Direction: 4; DBXType: 37; TypeName: 'TJSONArray')
+  );
+
+  TDsmProduto_cancelProdutos_Cache: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'pIDProduto'; Direction: 1; DBXType: 6; TypeName: 'Integer'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'String')
+  );
+
+  TDsmProduto_EchoString: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'Value'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
+  );
+
+  TDsmProduto_ReverseString: array [0..1] of TDSRestParameterMetaData =
+  (
+    (Name: 'Value'; Direction: 1; DBXType: 26; TypeName: 'string'),
+    (Name: ''; Direction: 4; DBXType: 26; TypeName: 'string')
+  );
+
+implementation
+
+function TDsmBaseClient.EchoString(Value: string; const ARequestFilter: string): string;
+begin
+  if FEchoStringCommand = nil then
+  begin
+    FEchoStringCommand := FConnection.CreateCommand;
+    FEchoStringCommand.RequestType := 'GET';
+    FEchoStringCommand.Text := 'TDsmBase.EchoString';
+    FEchoStringCommand.Prepare(TDsmBase_EchoString);
+  end;
+  FEchoStringCommand.Parameters[0].Value.SetWideString(Value);
+  FEchoStringCommand.Execute(ARequestFilter);
+  Result := FEchoStringCommand.Parameters[1].Value.GetWideString;
+end;
+
+function TDsmBaseClient.ReverseString(Value: string; const ARequestFilter: string): string;
+begin
+  if FReverseStringCommand = nil then
+  begin
+    FReverseStringCommand := FConnection.CreateCommand;
+    FReverseStringCommand.RequestType := 'GET';
+    FReverseStringCommand.Text := 'TDsmBase.ReverseString';
+    FReverseStringCommand.Prepare(TDsmBase_ReverseString);
+  end;
+  FReverseStringCommand.Parameters[0].Value.SetWideString(Value);
+  FReverseStringCommand.Execute(ARequestFilter);
+  Result := FReverseStringCommand.Parameters[1].Value.GetWideString;
+end;
+
+constructor TDsmBaseClient.Create(ARestConnection: TDSRestConnection);
+begin
+  inherited Create(ARestConnection);
+end;
+
+constructor TDsmBaseClient.Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean);
+begin
+  inherited Create(ARestConnection, AInstanceOwner);
+end;
+
+destructor TDsmBaseClient.Destroy;
+begin
+  FEchoStringCommand.DisposeOf;
+  FReverseStringCommand.DisposeOf;
+  inherited;
+end;
+
+function TDsmProdutoClient.Produtos(pIDProduto: Integer; const ARequestFilter: string): TStream;
+begin
+  if FProdutosCommand = nil then
+  begin
+    FProdutosCommand := FConnection.CreateCommand;
+    FProdutosCommand.RequestType := 'GET';
+    FProdutosCommand.Text := 'TDsmProduto.Produtos';
+    FProdutosCommand.Prepare(TDsmProduto_Produtos);
+  end;
+  FProdutosCommand.Parameters[0].Value.SetInt32(pIDProduto);
+  FProdutosCommand.Execute(ARequestFilter);
+  if not FProdutosCommand.Parameters[1].Value.IsNull then
+  begin
+    FUnMarshal := TDSRestCommand(FProdutosCommand.Parameters[1].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TFDJSONDataSets(FUnMarshal.UnMarshal(FProdutosCommand.Parameters[1].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FProdutosCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
+end;
+
+function TDsmProdutoClient.Produtos_Cache(pIDProduto: Integer; const ARequestFilter: string): IDSRestCachedTFDJSONDataSets;
+begin
+  if FProdutosCommand_Cache = nil then
+  begin
+    FProdutosCommand_Cache := FConnection.CreateCommand;
+    FProdutosCommand_Cache.RequestType := 'GET';
+    FProdutosCommand_Cache.Text := 'TDsmProduto.Produtos';
+    FProdutosCommand_Cache.Prepare(TDsmProduto_Produtos_Cache);
+  end;
+  FProdutosCommand_Cache.Parameters[0].Value.SetInt32(pIDProduto);
+  FProdutosCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedTFDJSONDataSets.Create(FProdutosCommand_Cache.Parameters[1].Value.GetString);
+end;
+
+function TDsmProdutoClient.updateProdutos(const ARequestFilter: string): TJSONArray;
+begin
+  if FupdateProdutosCommand = nil then
+  begin
+    FupdateProdutosCommand := FConnection.CreateCommand;
+    FupdateProdutosCommand.RequestType := 'GET';
+    FupdateProdutosCommand.Text := 'TDsmProduto.updateProdutos';
+    FupdateProdutosCommand.Prepare(TDsmProduto_updateProdutos);
+  end;
+  FupdateProdutosCommand.Execute(ARequestFilter);
+  Result := TJSONArray(FupdateProdutosCommand.Parameters[0].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TDsmProdutoClient.updateProdutos_Cache(const ARequestFilter: string): IDSRestCachedJSONArray;
+begin
+  if FupdateProdutosCommand_Cache = nil then
+  begin
+    FupdateProdutosCommand_Cache := FConnection.CreateCommand;
+    FupdateProdutosCommand_Cache.RequestType := 'GET';
+    FupdateProdutosCommand_Cache.Text := 'TDsmProduto.updateProdutos';
+    FupdateProdutosCommand_Cache.Prepare(TDsmProduto_updateProdutos_Cache);
+  end;
+  FupdateProdutosCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedJSONArray.Create(FupdateProdutosCommand_Cache.Parameters[0].Value.GetString);
+end;
+
+function TDsmProdutoClient.acceptProdutos(pIDProduto: Integer; const ARequestFilter: string): TJSONArray;
+begin
+  if FacceptProdutosCommand = nil then
+  begin
+    FacceptProdutosCommand := FConnection.CreateCommand;
+    FacceptProdutosCommand.RequestType := 'GET';
+    FacceptProdutosCommand.Text := 'TDsmProduto.acceptProdutos';
+    FacceptProdutosCommand.Prepare(TDsmProduto_acceptProdutos);
+  end;
+  FacceptProdutosCommand.Parameters[0].Value.SetInt32(pIDProduto);
+  FacceptProdutosCommand.Execute(ARequestFilter);
+  Result := TJSONArray(FacceptProdutosCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TDsmProdutoClient.acceptProdutos_Cache(pIDProduto: Integer; const ARequestFilter: string): IDSRestCachedJSONArray;
+begin
+  if FacceptProdutosCommand_Cache = nil then
+  begin
+    FacceptProdutosCommand_Cache := FConnection.CreateCommand;
+    FacceptProdutosCommand_Cache.RequestType := 'GET';
+    FacceptProdutosCommand_Cache.Text := 'TDsmProduto.acceptProdutos';
+    FacceptProdutosCommand_Cache.Prepare(TDsmProduto_acceptProdutos_Cache);
+  end;
+  FacceptProdutosCommand_Cache.Parameters[0].Value.SetInt32(pIDProduto);
+  FacceptProdutosCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedJSONArray.Create(FacceptProdutosCommand_Cache.Parameters[1].Value.GetString);
+end;
+
+function TDsmProdutoClient.cancelProdutos(pIDProduto: Integer; const ARequestFilter: string): TJSONArray;
+begin
+  if FcancelProdutosCommand = nil then
+  begin
+    FcancelProdutosCommand := FConnection.CreateCommand;
+    FcancelProdutosCommand.RequestType := 'GET';
+    FcancelProdutosCommand.Text := 'TDsmProduto.cancelProdutos';
+    FcancelProdutosCommand.Prepare(TDsmProduto_cancelProdutos);
+  end;
+  FcancelProdutosCommand.Parameters[0].Value.SetInt32(pIDProduto);
+  FcancelProdutosCommand.Execute(ARequestFilter);
+  Result := TJSONArray(FcancelProdutosCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TDsmProdutoClient.cancelProdutos_Cache(pIDProduto: Integer; const ARequestFilter: string): IDSRestCachedJSONArray;
+begin
+  if FcancelProdutosCommand_Cache = nil then
+  begin
+    FcancelProdutosCommand_Cache := FConnection.CreateCommand;
+    FcancelProdutosCommand_Cache.RequestType := 'GET';
+    FcancelProdutosCommand_Cache.Text := 'TDsmProduto.cancelProdutos';
+    FcancelProdutosCommand_Cache.Prepare(TDsmProduto_cancelProdutos_Cache);
+  end;
+  FcancelProdutosCommand_Cache.Parameters[0].Value.SetInt32(pIDProduto);
+  FcancelProdutosCommand_Cache.ExecuteCache(ARequestFilter);
+  Result := TDSRestCachedJSONArray.Create(FcancelProdutosCommand_Cache.Parameters[1].Value.GetString);
+end;
+
+function TDsmProdutoClient.EchoString(Value: string; const ARequestFilter: string): string;
+begin
+  if FEchoStringCommand = nil then
+  begin
+    FEchoStringCommand := FConnection.CreateCommand;
+    FEchoStringCommand.RequestType := 'GET';
+    FEchoStringCommand.Text := 'TDsmProduto.EchoString';
+    FEchoStringCommand.Prepare(TDsmProduto_EchoString);
+  end;
+  FEchoStringCommand.Parameters[0].Value.SetWideString(Value);
+  FEchoStringCommand.Execute(ARequestFilter);
+  Result := FEchoStringCommand.Parameters[1].Value.GetWideString;
+end;
+
+function TDsmProdutoClient.ReverseString(Value: string; const ARequestFilter: string): string;
+begin
+  if FReverseStringCommand = nil then
+  begin
+    FReverseStringCommand := FConnection.CreateCommand;
+    FReverseStringCommand.RequestType := 'GET';
+    FReverseStringCommand.Text := 'TDsmProduto.ReverseString';
+    FReverseStringCommand.Prepare(TDsmProduto_ReverseString);
+  end;
+  FReverseStringCommand.Parameters[0].Value.SetWideString(Value);
+  FReverseStringCommand.Execute(ARequestFilter);
+  Result := FReverseStringCommand.Parameters[1].Value.GetWideString;
+end;
+
+constructor TDsmProdutoClient.Create(ARestConnection: TDSRestConnection);
+begin
+  inherited Create(ARestConnection);
+end;
+
+constructor TDsmProdutoClient.Create(ARestConnection: TDSRestConnection; AInstanceOwner: Boolean);
+begin
+  inherited Create(ARestConnection, AInstanceOwner);
+end;
+
+destructor TDsmProdutoClient.Destroy;
+begin
+  FProdutosCommand.DisposeOf;
+  FProdutosCommand_Cache.DisposeOf;
+  FupdateProdutosCommand.DisposeOf;
+  FupdateProdutosCommand_Cache.DisposeOf;
+  FacceptProdutosCommand.DisposeOf;
+  FacceptProdutosCommand_Cache.DisposeOf;
+  FcancelProdutosCommand.DisposeOf;
+  FcancelProdutosCommand_Cache.DisposeOf;
+  FEchoStringCommand.DisposeOf;
+  FReverseStringCommand.DisposeOf;
+  inherited;
+end;
+
+end.

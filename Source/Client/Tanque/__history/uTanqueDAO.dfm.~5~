@@ -1,0 +1,85 @@
+inherited TanqueDAO: TTanqueDAO
+  Height = 390
+  Width = 923
+  inherited memBase: TFDMemTable
+    MasterFields = 'ID_TANQUE'
+    object memBaseID_TANQUE: TIntegerField
+      FieldName = 'ID_TANQUE'
+    end
+    object memBaseID_PRODUTO: TIntegerField
+      FieldName = 'ID_PRODUTO'
+    end
+    object memBaseCAPACIDADE: TFMTBCDField
+      FieldName = 'CAPACIDADE'
+    end
+    object memBaseNUMERO: TIntegerField
+      FieldName = 'NUMERO'
+    end
+    object memBaseDS_PRODUTO: TStringField
+      FieldKind = fkLookup
+      FieldName = 'DS_PRODUTO'
+      LookupDataSet = memProdCons
+      LookupKeyFields = 'ID_PRODUTO'
+      LookupResultField = 'DS_PRODUTO'
+      KeyFields = 'ID_PRODUTO'
+      Size = 50
+      Lookup = True
+    end
+  end
+  inherited FDConnection: TFDConnection
+    Connected = True
+  end
+  inherited memLista: TFDMemTable
+    MasterFields = 'ID_TANQUE'
+  end
+  inherited FDStoredProcPost: TFDStoredProc
+    StoredProcName = 'TDsmTanque.updateTanques'
+    ParamData = <
+      item
+        Name = 'AStream'
+        DataType = ftBlob
+        ParamType = ptInput
+      end
+      item
+        Position = 1
+        Name = 'ReturnValue'
+        DataType = ftBoolean
+        ParamType = ptResult
+      end>
+  end
+  inherited FDStoredProcConsulta: TFDStoredProc
+    StoredProcName = 'TDsmTanque.ListTanques'
+    ParamData = <
+      item
+        Name = 'ReturnValue'
+        DataType = ftBlob
+        ParamType = ptResult
+      end>
+  end
+  inherited FDStoredProcConsultaIDProduto: TFDStoredProc
+    StoredProcName = 'TDsmTanque.Tanque'
+    ParamData = <
+      item
+        Name = 'pIdTanque'
+        DataType = ftInteger
+        ParamType = ptInput
+      end
+      item
+        Position = 1
+        Name = 'ReturnValue'
+        DataType = ftBlob
+        ParamType = ptResult
+      end>
+  end
+  object memProdCons: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 600
+    Top = 232
+  end
+end

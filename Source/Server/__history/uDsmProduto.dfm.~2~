@@ -1,0 +1,13 @@
+inherited DsmProduto: TDsmProduto
+  OldCreateOrder = True
+  Height = 330
+  Width = 718
+  object FDStanStorageBinLink1: TFDStanStorageBinLink
+    Left = 232
+    Top = 64
+  end
+  object FDStanStorageJSONLink1: TFDStanStorageJSONLink
+    Left = 232
+    Top = 160
+  end
+end

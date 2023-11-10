@@ -1,0 +1,75 @@
+inherited BombaEdit: TBombaEdit
+  Caption = 'BombaEdit'
+  ClientHeight = 299
+  ClientWidth = 635
+  ExplicitWidth = 635
+  ExplicitHeight = 299
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label1: TLabel [0]
+    Left = 24
+    Top = 67
+    Width = 46
+    Height = 13
+    Caption = 'ID Bomba'
+  end
+  object Label2: TLabel [1]
+    Left = 24
+    Top = 95
+    Width = 36
+    Height = 13
+    Caption = 'Tanque'
+  end
+  object Label3: TLabel [2]
+    Left = 24
+    Top = 121
+    Width = 37
+    Height = 13
+    Caption = 'Numero'
+  end
+  inherited pnlTop: TPanel
+    Width = 635
+    ExplicitWidth = 635
+  end
+  object DBEdit1: TDBEdit [4]
+    Left = 152
+    Top = 64
+    Width = 121
+    Height = 21
+    DataField = 'ID_BOMBA'
+    DataSource = dsBase
+    ReadOnly = True
+    TabOrder = 1
+  end
+  object DBLookupComboBox1: TDBLookupComboBox [5]
+    Left = 152
+    Top = 91
+    Width = 250
+    Height = 21
+    DataField = 'NRO_TANQUE'
+    DataSource = dsBase
+    DropDownWidth = 300
+    KeyField = 'ID_TANQUE'
+    ListField = 'NUMERO;DS_PROD'
+    ListSource = dsTanque
+    TabOrder = 2
+    OnClick = DBLookupComboBox1Click
+  end
+  object DBEdit2: TDBEdit [6]
+    Left = 152
+    Top = 118
+    Width = 121
+    Height = 21
+    DataField = 'NUMERO'
+    DataSource = dsBase
+    TabOrder = 3
+  end
+  inherited dsBase: TDataSource
+    DataSet = BombaDAO.memBase
+  end
+  object dsTanque: TDataSource
+    DataSet = BombaDAO.memTanqueCons
+    Left = 368
+    Top = 200
+  end
+end

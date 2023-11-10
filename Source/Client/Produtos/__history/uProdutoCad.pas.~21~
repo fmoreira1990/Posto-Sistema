@@ -1,0 +1,45 @@
+unit uProdutoCad;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uPostoClientCad, Data.DB,
+  System.Actions, Vcl.ActnList, Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls,
+  Vcl.ExtCtrls, uProdutoDAO, uProdutoEdit, uPostoClientDAO;
+
+type
+  TProdutoCad = class(TPostoClientCad)
+  private
+    { Private declarations }
+  public
+    procedure AfterConstruction; override;
+    { Public declarations }
+
+  end;
+
+var
+  ProdutoCad: TProdutoCad;
+
+implementation
+
+{$R *.dfm}
+
+{ TProdutoCad }
+
+procedure TProdutoCad.AfterConstruction;
+begin
+  DAO := TPostoClientDAO.Create;
+
+  if not Assigned(FPostoClientEdit) then
+  begin
+    FPostoClientEdit := TProdutoEdit.Create;
+    FPostoClientEdit.DAO := DAO;
+  end;
+
+  inherited;
+end;
+
+end.
+
+

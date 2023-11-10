@@ -1,0 +1,66 @@
+unit uPostoClientEdit;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, System.Actions, Vcl.ActnList,
+  Vcl.StdCtrls, Vcl.ExtCtrls;
+
+type
+  TPostoClientEdit = class(TForm)
+    ActionList1: TActionList;
+    acSalvar: TAction;
+    acCancelar: TAction;
+    Panel1: TPanel;
+    Button5: TButton;
+    Button6: TButton;
+    procedure acSalvarExecute(Sender: TObject);
+    procedure acCancelarExecute(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    function CanPost: Boolean;
+  end;
+
+var
+  PostoClientEdit: TPostoClientEdit;
+
+implementation
+
+{$R *.dfm}
+
+procedure TPostoClientEdit.acCancelarExecute(Sender: TObject);
+begin
+  FDAO.DoCancelar(FDAO.memBase);
+end;
+
+procedure TPostoClientEdit.acSalvarExecute(Sender: TObject);
+begin
+  //
+end;
+
+function TPostoClientEdit.CanPost: Boolean;
+var
+  I: Integer;
+  LDataSet: TFDAdaptedDataSet;
+begin
+  Result := (FDAO.FDSchemaAdapter <> nil);
+  if Result then
+  begin
+    Result := False;
+    for I := 0 to FDAO.FDSchemaAdapter.Count - 1 do
+    begin
+      LDataSet := FDAO.FDSchemaAdapter.DataSets[I];
+      if (LDataSet.ChangeCount > 0) or (LDataSet.State in dsEditModes) then
+      begin
+        Result := True;
+        break;
+      end;
+    end;
+  end;
+end;
+
+end.
+

@@ -1,0 +1,344 @@
+unit uPostoClientBaseDAO;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.DApt,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, Data.DB, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, FireDAC.UI.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool,
+  FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.DS, FireDAC.Phys.DSDef,
+  FireDAC.VCLUI.Wait, FireDAC.Phys.TDBXBase, DSHTTPLayer,
+  FireDAC.Stan.StorageJSON, FireDAC.Stan.StorageBin, Vcl.AppEvnts;
+
+type
+  TPostoClientBaseDAO = class(TDataModule)
+    FDSchemaAdapter: TFDSchemaAdapter;
+    memBase: TFDMemTable;
+    tabBase: TFDTableAdapter;
+    dsBase: TDataSource;
+    FDConnection: TFDConnection;
+    FDPhysDSDriverLink1: TFDPhysDSDriverLink;
+    FDStanStorageBinLink1: TFDStanStorageBinLink;
+    FDStanStorageJSONLink1: TFDStanStorageJSONLink;
+    memLista: TFDMemTable;
+    dsLista: TDataSource;
+    FDStoredProcPost: TFDStoredProc;
+    FDStoredProcConsulta: TFDStoredProc;
+    FDStoredProcConsultaIDProduto: TFDStoredProc;
+  private
+    function DoConnectionError(pError: string): Boolean;
+    procedure DoBeforePost(pDataSet: TDataSet);
+    { Private declarations }
+  public
+    { Public declarations }
+    AppEvent: TApplicationEvents;
+    procedure DoException(Sender: TObject; E: Exception);
+
+    function DoConsultar: Boolean; overload; virtual;
+    function DoConsultar(const pIDProduto: integer): Boolean; overload; virtual;
+    function DoSalvar(const pDataSet: TFDMemTable): Boolean;
+    function DoEdit(const pDataSet: TFDMemTable): Boolean;
+    function DoCancelar(const pDataSet: TFDMemTable): Boolean;
+    function DoDelete(const pDataSet: TFDMemTable): Boolean;
+    function DoInsert(const pDataSet: TFDMemTable): Boolean;
+    function DoOpen(const pDataSet: TFDMemTable): Boolean; overload;
+    function DoOpen(const pID: Integer): Boolean; overload;
+
+    procedure BeforeDestruction; override;
+    procedure AfterConstruction; override;
+
+  end;
+
+var
+  PostoClientBaseDAO: TPostoClientBaseDAO;
+
+implementation
+
+uses
+  System.Variants, Vcl.Dialogs, RegExpr;
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+{ TPostoClientBaseDAO }
+
+function ErrorInRegEx(const pMensagem, pExpressao: string): Boolean;
+var
+  vExp: TRegExpr;
+begin
+  vExp := TRegExpr.Create;
+  try
+    vExp.Expression := pExpressao;
+    Result := vExp.Exec(pMensagem);
+  finally
+    vExp.Free
+  end;
+end;
+
+function CopyStream(const AStream: TStream): TMemoryStream;
+var
+  LBuffer: TBytes;
+  LCount: Integer;
+begin
+  Result := TMemoryStream.Create;
+  try
+    SetLength(LBuffer, 1024 * 32);
+    while True do
+    begin
+      LCount := AStream.Read(LBuffer, Length(LBuffer));
+      Result.Write(LBuffer, LCount);
+      if LCount < Length(LBuffer) then
+        break;
+    end;
+  except
+    Result.Free;
+    raise;
+  end;
+end;
+
+procedure TPostoClientBaseDAO.AfterConstruction;
+var
+  i: integer;
+begin
+  inherited;
+  AppEvent := TApplicationEvents.Create(Self);
+  AppEvent.OnException := DoException;
+
+  for I := 0 to ComponentCount - 1 do
+  begin
+    if Components[I] is TFDMemTable then
+    begin
+      if Components[I] <> memLista then
+      begin
+        TFDMemTable(Components[I]).BeforePost := DoBeforePost;
+      end;
+    end;
+  end;
+end;
+
+procedure TPostoClientBaseDAO.BeforeDestruction;
+begin
+  inherited;
+  FDConnection.Connected := False;
+end;
+
+function TPostoClientBaseDAO.DoConsultar: Boolean;
+var
+  LStringStream: TStream;
+begin
+  memLista.Close;
+  FDStoredProcConsulta.ExecProc;
+  LStringStream := TStringStream.Create(FDStoredProcConsulta.Params[0].AsBlob);
+  try
+    if LStringStream <> nil then
+    begin
+      LStringStream.Position := 0;
+      memLista.LoadFromStream(LStringStream, TFDStorageFormat.sfJSON);
+    end;
+  finally
+    LStringStream.Free;
+  end;
+end;
+
+function TPostoClientBaseDAO.DoCancelar(const pDataSet: TFDMemTable): Boolean;
+begin
+  Result := False;
+  pDataSet.Adapter.SchemaAdapter.CancelUpdates;
+  Result := True;
+end;
+
+function TPostoClientBaseDAO.DoConsultar(const pIDProduto: integer): Boolean;
+var
+  LStringStream: TStream;
+begin
+  Result := False;
+  memBase.Close;
+
+  FDStoredProcConsultaIDProduto.Params[0].AsInteger := pIDProduto;
+  FDStoredProcConsultaIDProduto.ExecProc;
+
+  LStringStream := TStringStream.Create(FDStoredProcConsultaIDProduto.Params[1].AsBlob);
+  try
+    if LStringStream <> nil then
+    begin
+      LStringStream.Position := 0;
+      memBase.LoadFromStream(LStringStream, TFDStorageFormat.sfJSON);
+      Result := memBase.RecordCount > 0;
+    end;
+  finally
+    LStringStream.Free;
+  end;
+end;
+
+function TPostoClientBaseDAO.DoDelete(const pDataSet: TFDMemTable): Boolean;
+begin
+  Result := False;
+  if memLista.Active then
+  begin
+    if DoOpen(memLista.FieldByName(memLista.MasterFields).AsInteger) then
+    begin
+      pDataSet.Delete;
+      Result := True;
+    end;
+  end;
+end;
+
+function TPostoClientBaseDAO.DoEdit(const pDataSet: TFDMemTable): Boolean;
+begin
+  Result := False;
+  if memLista.Active then
+  begin
+    if DoOpen(memLista.FieldByName(memLista.MasterFields).AsInteger) then
+    begin
+      pDataSet.Edit;
+      Result := True;
+    end;
+  end;
+end;
+
+procedure TPostoClientBaseDAO.DoException(Sender: TObject; E: Exception);
+begin
+  if DoConnectionError(E.Message) then
+  begin
+    if MessageDlg('Deseja reconectar com o servidor?', mtCustom, [mbYes, mbNo], 1) = 6 then
+    begin
+      try
+        FDConnection.Close;
+      finally
+        FDConnection.Open;
+        if FDConnection.Connected then
+          ShowMessage('Conexão reestabelecida com sucesso!')
+        else
+          ShowMessage('Não foi possível reestabelecer a conexão!' + #13 + 'Verifique o servidor de aplicação.');
+      end;
+    end;
+  end
+  else
+    ShowMessage(E.Message);
+end;
+
+function TPostoClientBaseDAO.DoConnectionError(pError: string): Boolean;
+var
+  vExpression: TStrings;
+  vI: Integer;
+begin
+  vExpression := TStringList.Create;
+  try
+    vExpression.Add('([r|R](eading|EADING))+.*([S|s](ocket|OCKET))+');
+    vExpression.Add('([u|U](nable|UNABLE))+.*([n|N](etwork|ETWORK))+');
+    vExpression.Add('([u|U](navailable|NAVAILABLE))+.*([d|D](atabase|ATABASE))+');
+    vExpression.Add('([s|S](ocket|OCKET))+.*([e|E](rror|RROR))+');
+    vExpression.Add('([e|E](rror|RROR))+.*([s|S](ocket|OCKET))+');
+    vExpression.Add('([n|N](ao|ão|AO|ÃO))+.*([s|S](oquete|OQUETE))+');
+    vExpression.Add('([s|S](ervidor|ERVIDOR))+.*(rpc|RPC)+.*([n|N](ao|ão|AO|ÃO))+.*([d|D](isponível))+');
+    vExpression.Add('((cds|CDS)(metadata|MetaData|METADATA))+.*((ds|DS)[_]?(provider|PROVIDER))+');
+    vExpression.Add('([d|D](ata|ATA))+.*([c|C](onnection|ONNECTION))+');
+    vExpression.Add('([f|F](alha|ALHA))+.*([s|S](ervidor|ERVIDOR))+');
+    vExpression.Add('([c|C](onnection|ONNECTION))+.*([c|C](losed|LOSED))+.*');
+    vExpression.Add('([c|C](onnection|ONNECTION))+.*([l|L](ost|OST))+.*');
+    vExpression.Add('([c|C](onnection|ONNECTION))+.*([a|A](bort|BORT))+.*');
+    vExpression.Add('([c|C](onnect|ONNECT))+.*([t|T](imed|IMED))+.*([o|O](ut|UT))+.*');
+    vExpression.Add('(DBX)+.*([e|E](rror|RROR))+.*([v|V](endor|ENDOR))+.*');
+    vExpression.Add('([c|C](onnection|ONNECTION))+.*([p|P](ool|OOL))+.*([t|T](imeout|IMEOUT))+.*');
+    vExpression.Add('([s|S](ession|ESSION))+.*([e|E](xpired|XPIRED))+.*');
+
+    Result := False;
+    for vI := 0 to vExpression.Count - 1 do
+      if ErrorInRegEx(pError, vExpression.Strings[vI]) then
+      begin
+        Result := True;
+        Break;
+      end;
+
+  finally
+    vExpression.Free;
+  end;
+end;
+
+function TPostoClientBaseDAO.DoInsert(const pDataSet: TFDMemTable): Boolean;
+begin
+  Result := False;
+  DoOpen(0);
+  pDataSet.Append;
+  Result := True;
+end;
+
+function TPostoClientBaseDAO.DoOpen(const pID: Integer): Boolean;
+begin
+  Result := DoConsultar(pID);
+end;
+
+function TPostoClientBaseDAO.DoOpen(const pDataSet: TFDMemTable): Boolean;
+begin
+  if pDataSet.Active then
+    pDataSet.Close;
+
+  if pDataSet = memBase then
+    DoOpen(memLista.FieldByName(memLista.MasterFields).AsInteger)
+  else
+    pDataSet.Open;
+end;
+
+function TPostoClientBaseDAO.DoSalvar(const pDataSet: TFDMemTable): Boolean;
+var
+  LMemStream: TMemoryStream;
+  I: integer;
+  LDataSet: TDataSet;
+begin
+  for I := 0 to pDataSet.Adapter.SchemaAdapter.Count - 1 do
+  begin
+    LDataSet := pDataSet.Adapter.SchemaAdapter.DataSets[I];
+    if LDataSet <> nil then
+      if LDataSet.State in dsEditModes then
+        LDataSet.Post;
+  end;
+
+  LMemStream := nil;
+  LMemStream := TMemoryStream.Create;
+  try
+    try
+      pDataSet.Adapter.SchemaAdapter.ResourceOptions.StoreItems := [siDelta, siMeta];
+      pDataSet.Adapter.SchemaAdapter.SaveToStream(LMemStream, TFDStorageFormat.sfJSON);
+      LMemStream.Position := 0;
+
+      FDStoredProcPost.Params[0].asStream := LMemStream;
+      FDStoredProcPost.ExecProc;
+
+      if FDStoredProcPost.Params[1].AsBoolean then
+      begin
+        memBase.Close;
+        DoConsultar;
+      end;
+    finally
+      //FreeAndNil(LMemStream);
+    end;
+  except
+    on E: Exception do
+      raise Exception.Create(E.Message);
+  end;
+end;
+
+procedure TPostoClientBaseDAO.DoBeforePost(pDataSet: TDataSet);
+var
+  vField: TField;
+  vFields: string;
+begin
+  vFields := EmptyStr;
+
+  if pDataSet.State in dsEditModes then
+    for vField in pDataSet.Fields do
+    begin
+      if vField.Required and vField.IsNull then
+        vFields := vFields + ':. ' + vField.DisplayLabel + #13;
+    end;
+
+  if vFields <> EmptyStr then
+    raise Exception.Create('Campos obrigatórios não estão preenchidos.' + #13 + vFields);
+end;
+
+end.
+
+
+

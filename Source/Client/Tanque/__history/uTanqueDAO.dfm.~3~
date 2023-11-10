@@ -1,0 +1,46 @@
+inherited TanqueDAO: TTanqueDAO
+  Height = 390
+  Width = 923
+  inherited FDConnection: TFDConnection
+    Connected = True
+  end
+  inherited FDStoredProcPost: TFDStoredProc
+    StoredProcName = 'TDsmTanque.updateTanques'
+    ParamData = <
+      item
+        Name = 'AStream'
+        DataType = ftBlob
+        ParamType = ptInput
+      end
+      item
+        Position = 1
+        Name = 'ReturnValue'
+        DataType = ftBoolean
+        ParamType = ptResult
+      end>
+  end
+  inherited FDStoredProcConsulta: TFDStoredProc
+    StoredProcName = 'TDsmTanque.ListTanques'
+    ParamData = <
+      item
+        Name = 'ReturnValue'
+        DataType = ftBlob
+        ParamType = ptResult
+      end>
+  end
+  inherited FDStoredProcConsultaIDProduto: TFDStoredProc
+    StoredProcName = 'TDsmTanque.Tanque'
+    ParamData = <
+      item
+        Name = 'pIdTanque'
+        DataType = ftInteger
+        ParamType = ptInput
+      end
+      item
+        Position = 1
+        Name = 'ReturnValue'
+        DataType = ftBlob
+        ParamType = ptResult
+      end>
+  end
+end

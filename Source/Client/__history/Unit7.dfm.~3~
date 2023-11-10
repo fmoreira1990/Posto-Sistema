@@ -1,0 +1,35 @@
+object Form7: TForm7
+  Left = 0
+  Top = 0
+  Caption = 'Form7'
+  ClientHeight = 473
+  ClientWidth = 913
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  Menu = MainMenu1
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object MainMenu1: TMainMenu
+    Left = 320
+    Top = 176
+    object Cadastros1: TMenuItem
+      Caption = 'Cadastros'
+    end
+    object Produtos1: TMenuItem
+      Action = acProdutos
+    end
+  end
+  object ActionList: TActionList
+    Left = 592
+    Top = 280
+    object acProdutos: TAction
+      Caption = 'Produtos'
+      OnExecute = acProdutosExecute
+    end
+  end
+end

@@ -1,0 +1,36 @@
+unit uDsmTanque;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Datasnap.DSServer, 
+  Datasnap.DSAuth, Datasnap.DSProviderDataModuleAdapter, uDsmBase,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf,
+  FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
+  FireDAC.Phys, FireDAC.Phys.FB, FireDAC.Phys.FBDef, FireDAC.VCLUI.Wait,
+  FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt,
+  FireDAC.Stan.StorageBin, FireDAC.Stan.StorageJSON, FireDAC.Comp.Client,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Phys.IBBase;
+
+type
+  TDsmTanque = class(TDsmBase)
+    QueryListaID_TANQUE: TIntegerField;
+    QueryListaID_PRODUTO: TIntegerField;
+    QueryListaCAPACIDADE: TFMTBCDField;
+    QueryBaseID_TANQUE: TIntegerField;
+    QueryBaseID_PRODUTO: TIntegerField;
+    QueryBaseCAPACIDADE: TFMTBCDField;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+end.
+

@@ -1,0 +1,54 @@
+inherited ProdutoDAO: TProdutoDAO
+  Height = 367
+  Width = 908
+  inherited memBase: TFDMemTable
+    UpdateOptions.AutoCommitUpdates = True
+  end
+  inherited tabBase: TFDTableAdapter
+    UpdateTableName = 'tb_produto'
+    DatSTableName = 'tb_produto'
+  end
+  object FDStoredProcConsulta: TFDStoredProc
+    Connection = FDConnection
+    StoredProcName = 'TDsmProduto.ListProdutos'
+    Left = 456
+    Top = 192
+    ParamData = <
+      item
+        Name = 'ReturnValue'
+        DataType = ftBlob
+        ParamType = ptResult
+      end>
+  end
+  object FDStoredProcPost: TFDStoredProc
+    Connection = FDConnection
+    UpdateOptions.AssignedValues = [uvAutoCommitUpdates]
+    StoredProcName = 'TDsmProduto.updateProdutos'
+    Left = 456
+    Top = 264
+    ParamData = <
+      item
+        Name = 'AStream'
+        DataType = ftBlob
+        ParamType = ptInput
+      end>
+  end
+  object FDStoredProcConsultaIDProduto: TFDStoredProc
+    Connection = FDConnection
+    StoredProcName = 'TDsmProduto.Produtos'
+    Left = 600
+    Top = 192
+    ParamData = <
+      item
+        Name = 'pIDProduto'
+        DataType = ftInteger
+        ParamType = ptInput
+      end
+      item
+        Position = 1
+        Name = 'ReturnValue'
+        DataType = ftBlob
+        ParamType = ptResult
+      end>
+  end
+end

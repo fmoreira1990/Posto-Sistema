@@ -1,0 +1,57 @@
+object PostoClientEdit: TPostoClientEdit
+  Left = 0
+  Top = 0
+  BorderStyle = bsNone
+  Caption = 'PostoClientEdit'
+  ClientHeight = 316
+  ClientWidth = 651
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 651
+    Height = 41
+    Align = alTop
+    BevelOuter = bvNone
+    TabOrder = 0
+    ExplicitWidth = 635
+    object Button5: TButton
+      Left = 21
+      Top = 9
+      Width = 75
+      Height = 25
+      Action = acSalvar
+      TabOrder = 0
+    end
+    object Button6: TButton
+      Left = 102
+      Top = 9
+      Width = 75
+      Height = 25
+      Action = acCancelar
+      TabOrder = 1
+    end
+  end
+  object ActionList1: TActionList
+    Left = 464
+    Top = 200
+    object acSalvar: TAction
+      Caption = 'Salvar'
+      OnExecute = acSalvarExecute
+      OnUpdate = acSalvarUpdate
+    end
+    object acCancelar: TAction
+      Caption = 'Cancelar'
+      OnExecute = acCancelarExecute
+      OnUpdate = acSalvarUpdate
+    end
+  end
+end

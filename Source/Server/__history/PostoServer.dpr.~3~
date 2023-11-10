@@ -1,0 +1,30 @@
+program PostoServer;
+{$APPTYPE GUI}
+
+{$R *.dres}
+
+uses
+  Vcl.Forms,
+  Web.WebReq,
+  IdHTTPWebBrokerBridge,
+  uPostoServerMain in 'uPostoServerMain.pas' {PostoServerMain},
+  uDsmBase in 'uDsmBase.pas' {DsmBase: TDSServerModule},
+  uPostoServerModule in 'uPostoServerModule.pas' {PostoServerModule: TDataModule},
+  uPostoWebModule in 'uPostoWebModule.pas' {PostoWebModule: TWebModule},
+  uDsmProduto in 'uDsmProduto.pas' {DsmProduto: TDSServerModule},
+  uProduto in 'uProduto.pas',
+  ClientModuleUnit1 in 'Client\ClientModuleUnit1.pas' {ClientModule1: TDataModule},
+  ClientClassesUnit1 in '..\Client\ClientClassesUnit1.pas',
+  ClientModuleUnit2 in '..\Client\ClientModuleUnit2.pas' {ClientModule2: TDataModule};
+
+{$R *.res}
+
+begin
+  if WebRequestHandler <> nil then
+    WebRequestHandler.WebModuleClass := WebModuleClass;
+  Application.Initialize;
+  Application.CreateForm(TPostoServerMain, PostoServerMain);
+  Application.CreateForm(TClientModule1, ClientModule1);
+  Application.CreateForm(TClientModule2, ClientModule2);
+  Application.Run;
+end.

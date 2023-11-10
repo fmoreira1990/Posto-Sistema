@@ -1,0 +1,5 @@
+object DsmProduto: TDsmProduto
+  OldCreateOrder = False
+  Height = 330
+  Width = 718
+end

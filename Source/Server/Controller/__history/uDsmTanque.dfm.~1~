@@ -1,0 +1,4 @@
+inherited DsmTanque: TDsmTanque
+  Height = 367
+  Width = 711
+end

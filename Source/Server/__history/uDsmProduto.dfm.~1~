@@ -1,0 +1,5 @@
+inherited DsmProduto: TDsmProduto
+  OldCreateOrder = True
+  Height = 330
+  Width = 718
+end

@@ -1,0 +1,4 @@
+inherited TanqueDAO: TTanqueDAO
+  Height = 390
+  Width = 923
+end
