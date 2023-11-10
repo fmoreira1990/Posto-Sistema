@@ -1,7 +1,0 @@
-inherited TanqueEdit: TTanqueEdit
-  Caption = 'TanqueEdit'
-  ClientHeight = 299
-  ExplicitHeight = 338
-  PixelsPerInch = 96
-  TextHeight = 13
-end
