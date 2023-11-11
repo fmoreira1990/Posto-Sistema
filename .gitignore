@@ -1,2 +1,11 @@
 
-Source/__history/PostoServer.dpr.~5~
+Source/__history
+Source/Server/Win32
+Source/Client/__recovery
+Source/Client/__history
+Source/Client/Win32
+Source/Client/Venda/__history
+Source/Server/__history
+Source/Server/Controller/__history
+*.local
+*.dres

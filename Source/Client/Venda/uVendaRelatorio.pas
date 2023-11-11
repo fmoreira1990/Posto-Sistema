@@ -17,11 +17,6 @@ type
     RLBand4: TRLBand;
     RLSystemInfo3: TRLSystemInfo;
     RLSystemInfo4: TRLSystemInfo;
-    RLBand5: TRLBand;
-    RLDBResult1: TRLDBResult;
-    RLDBResult2: TRLDBResult;
-    RLDBResult3: TRLDBResult;
-    RLLabel9: TRLLabel;
     RLGroup1: TRLGroup;
     RLBand3: TRLBand;
     RLDBText1: TRLDBText;
@@ -44,6 +39,11 @@ type
     RLLabel10: TRLLabel;
     RLDBResult5: TRLDBResult;
     RLBand7: TRLBand;
+    RLBand5: TRLBand;
+    RLDBResult1: TRLDBResult;
+    RLDBResult2: TRLDBResult;
+    RLDBResult3: TRLDBResult;
+    RLLabel9: TRLLabel;
   private
   protected
     procedure DoShow; override;
@@ -51,6 +51,8 @@ type
   public
     { Public declarations }
     procedure DoExecuteReport;
+    procedure BeforeDestruction; override;
+
   end;
 
 implementation
@@ -59,10 +61,16 @@ implementation
 
 { TVendaRelatorio }
 
+procedure TVendaRelatorio.BeforeDestruction;
+begin
+  inherited;
+
+end;
+
 procedure TVendaRelatorio.DoExecuteReport;
 begin
   DAO.DoConsultar;
-  Report_Venda_Detalhe_Ord_Data_Hora.Preview();
+  Report_Venda_Detalhe_Ord_Data_Hora.PreviewModal();
 end;
 
 procedure TVendaRelatorio.DoShow;
@@ -72,4 +80,5 @@ begin
 end;
 
 end.
+
 

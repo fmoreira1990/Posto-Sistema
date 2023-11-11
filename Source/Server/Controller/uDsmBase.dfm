@@ -5,7 +5,7 @@ object DsmBase: TDsmBase
   object Connection: TFDConnection
     Params.Strings = (
       'DriverID=FB'
-      'Database=D:\Posto\POSTO.FDB'
+      'Database=C:\Posto-Sistema\POSTO.FDB'
       'Password=masterkey'
       'Server=localhost'
       'User_Name=SYSDBA')
@@ -38,6 +38,7 @@ object DsmBase: TDsmBase
     Top = 200
   end
   object FDSchemaAdapter: TFDSchemaAdapter
+    OnReconcileRow = FDSchemaAdapterReconcileRow
     Left = 544
     Top = 200
   end

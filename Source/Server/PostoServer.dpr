@@ -12,7 +12,6 @@ uses
   uPostoServerModule in 'uPostoServerModule.pas' {PostoServerModule: TDataModule},
   uPostoWebModule in 'uPostoWebModule.pas' {PostoWebModule: TWebModule},
   uDsmProduto in 'Controller\uDsmProduto.pas' {DsmProduto: TDSServerModule},
-  uProduto in 'uProduto.pas',
   uDsmBomba in 'Controller\uDsmBomba.pas' {DsmBomba: TDSServerModule},
   uDsmTanque in 'Controller\uDsmTanque.pas' {DsmTanque: TDSServerModule},
   uDsmVenda in 'Controller\uDsmVenda.pas' {DsmVenda: TDSServerModule};

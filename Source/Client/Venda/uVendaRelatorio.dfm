@@ -18,6 +18,7 @@ inherited VendaRelatorio: TVendaRelatorio
     Font.Height = -13
     Font.Name = 'Arial'
     Font.Style = []
+    PreviewOptions.ShowModal = True
     Title = 'Relat'#243'rio de Vendas'
     object RLBand1: TRLBand
       Left = 39
@@ -86,87 +87,6 @@ inherited VendaRelatorio: TVendaRelatorio
         Height = 16
         Align = faRightTop
         Text = 'Data:'
-      end
-    end
-    object RLBand5: TRLBand
-      Left = 39
-      Top = 220
-      Width = 716
-      Height = 21
-      BandType = btColumnFooter
-      Borders.Sides = sdAll
-      Color = clWhite
-      ParentColor = False
-      Transparent = False
-      object RLDBResult1: TRLDBResult
-        Left = 458
-        Top = 3
-        Width = 80
-        Height = 16
-        DataField = 'QTDE'
-        DataSource = dsVendas
-        DisplayMask = '#,###,##0.00'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -13
-        Font.Name = 'Arial'
-        Font.Style = [fsBold]
-        Info = riSum
-        ParentFont = False
-        Text = ''
-        Transparent = False
-      end
-      object RLDBResult2: TRLDBResult
-        Left = 539
-        Top = 3
-        Width = 114
-        Height = 16
-        DataField = 'VR_VENDA'
-        DataSource = dsVendas
-        DisplayMask = '#,###,##0.00'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -13
-        Font.Name = 'Arial'
-        Font.Style = [fsBold]
-        Info = riSum
-        ParentFont = False
-        Text = ''
-        Transparent = False
-      end
-      object RLDBResult3: TRLDBResult
-        Left = 646
-        Top = 3
-        Width = 113
-        Height = 16
-        Color = clWhite
-        DataField = 'VR_TOTAL'
-        DataSource = dsVendas
-        DisplayMask = '#,###,##0.00'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -13
-        Font.Name = 'Arial'
-        Font.Style = [fsBold]
-        Info = riSum
-        ParentColor = False
-        ParentFont = False
-        Text = ''
-        Transparent = False
-      end
-      object RLLabel9: TRLLabel
-        Left = 3
-        Top = 3
-        Width = 79
-        Height = 16
-        Caption = 'Total Geral:'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -13
-        Font.Name = 'Arial'
-        Font.Style = [fsBold]
-        ParentFont = False
-        Transparent = False
       end
     end
     object RLGroup1: TRLGroup
@@ -252,7 +172,7 @@ inherited VendaRelatorio: TVendaRelatorio
         Top = 25
         Width = 716
         Height = 21
-        BandType = btSummary
+        BandType = btColumnFooter
         Borders.Sides = sdAll
         Color = clWhite
         ParentColor = False
@@ -384,6 +304,88 @@ inherited VendaRelatorio: TVendaRelatorio
       Top = 204
       Width = 716
       Height = 16
+      BandType = btColumnFooter
+    end
+    object RLBand5: TRLBand
+      Left = 39
+      Top = 220
+      Width = 716
+      Height = 21
+      BandType = btSummary
+      Borders.Sides = sdAll
+      Color = clWhite
+      ParentColor = False
+      Transparent = False
+      object RLDBResult1: TRLDBResult
+        Left = 458
+        Top = 3
+        Width = 80
+        Height = 16
+        DataField = 'QTDE'
+        DataSource = dsVendas
+        DisplayMask = '#,###,##0.00'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -13
+        Font.Name = 'Arial'
+        Font.Style = [fsBold]
+        Info = riSum
+        ParentFont = False
+        Text = ''
+        Transparent = False
+      end
+      object RLDBResult2: TRLDBResult
+        Left = 539
+        Top = 3
+        Width = 114
+        Height = 16
+        DataField = 'VR_VENDA'
+        DataSource = dsVendas
+        DisplayMask = '#,###,##0.00'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -13
+        Font.Name = 'Arial'
+        Font.Style = [fsBold]
+        Info = riSum
+        ParentFont = False
+        Text = ''
+        Transparent = False
+      end
+      object RLDBResult3: TRLDBResult
+        Left = 646
+        Top = 3
+        Width = 113
+        Height = 16
+        Color = clWhite
+        DataField = 'VR_TOTAL'
+        DataSource = dsVendas
+        DisplayMask = '#,###,##0.00'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -13
+        Font.Name = 'Arial'
+        Font.Style = [fsBold]
+        Info = riSum
+        ParentColor = False
+        ParentFont = False
+        Text = ''
+        Transparent = False
+      end
+      object RLLabel9: TRLLabel
+        Left = 3
+        Top = 3
+        Width = 79
+        Height = 16
+        Caption = 'Total Geral:'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -13
+        Font.Name = 'Arial'
+        Font.Style = [fsBold]
+        ParentFont = False
+        Transparent = False
+      end
     end
   end
   object dsVendas: TDataSource

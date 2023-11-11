@@ -152,9 +152,9 @@ inherited DsmVenda: TDsmVenda
     Connection = Connection
     SQL.Strings = (
       'select vv.data,'
-      '       cast(sum(vv.qtde) as numeric(8,3)) as qtde,'
-      '       cast(vv.vr_venda as numeric(8,2))  as vr_venda,'
-      '       cast(sum(vv.vr_total) as numeric(8,2)) as vr_total,'
+      '       cast(sum(vv.qtde) as FLOAT) as qtde,'
+      '       cast(vv.vr_venda as FLOAT)  as vr_venda,'
+      '       cast(sum(vv.vr_total) as FLOAT) as vr_total,'
       '       pp.descricao as ds_produto,'
       '       bb.numero    as nro_bomba,'
       '       tt.numero    as nro_tanque'

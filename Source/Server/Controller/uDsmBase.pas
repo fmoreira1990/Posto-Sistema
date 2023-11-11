@@ -21,6 +21,8 @@ type
     FDStanStorageJSONLink1: TFDStanStorageJSONLink;
     FDStanStorageBinLink1: TFDStanStorageBinLink;
     QueryLista: TFDQuery;
+    procedure FDSchemaAdapterReconcileRow(ASender: TObject; ARow: TFDDatSRow;
+      var Action: TFDDAptReconcileAction);
   private
     { Private declarations }
   protected
@@ -66,6 +68,25 @@ end;
 function TDsmBase.EchoString(Value: string): string;
 begin
   Result := Value;
+end;
+
+procedure TDsmBase.FDSchemaAdapterReconcileRow(ASender: TObject; ARow: TFDDatSRow; var Action: TFDDAptReconcileAction);
+var
+  oErr: EFDException;
+  oExc: EFDDBEngineException;
+begin
+  inherited;
+  oErr := ARow.RowError;
+  if oErr <> nil then
+  begin
+    if oErr is EFDDBEngineException then
+    begin
+      oExc := EFDDBEngineException(oErr);
+      // [FireDAC][Phys][PG]-312. Exact update affected [0] rows, while [1] was requested // tentando deletar no banco de dados registro que foi inserido no fdquery e depois deletado, na verdade, nunca existiu no bd e da essa exception.
+      if not (oExc.ErrorCode = 312) then
+        raise Exception.Create(oExc.Message + char(13) + char(13) + 'SQL: ' + oExc.SQL + char(13) + 'Parametros: ' + oExc.Params.Text);
+    end;
+  end;
 end;
 
 function TDsmBase.List(const pQuery: TFDQuery): TStream;
@@ -115,6 +136,7 @@ begin
       Result := pSchemaAdapter.ApplyUpdates = 0;
       if not Result then
         raise Exception.Create('Não foi possível salvar as alterações');
+
     finally
       LMemStream.Free;
     end;

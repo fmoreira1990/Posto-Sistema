@@ -37,6 +37,7 @@ type
     procedure acVendasExecute(Sender: TObject);
     procedure acRelatoriosExecute(Sender: TObject);
   private
+    FViewReport: IView;
     { Private declarations }
     procedure DoAbrirTela(pView: IView; pDAO: IPostoClientDAO);
   public
@@ -85,13 +86,10 @@ begin
 end;
 
 procedure TPostoClientMain.acRelatoriosExecute(Sender: TObject);
-var
-  vView: IView;
-  vDao: IPostoClientDAO;
 begin
-  vView := TVendaRelatorio.Create;
-  vView.DAO := TVendaDAO.Create;
-  (vView as TVendaRelatorio).DoExecuteReport;
+  FViewReport := TVendaRelatorio.Create;
+  FViewReport.DAO := TVendaDAO.Create;
+  (FViewReport as TVendaRelatorio).DoExecuteReport;
 end;
 
 procedure TPostoClientMain.acSairExecute(Sender: TObject);
