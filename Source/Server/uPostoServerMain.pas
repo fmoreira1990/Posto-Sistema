@@ -5,21 +5,41 @@ interface
 uses
   Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
-  Vcl.AppEvnts, Vcl.StdCtrls, IdHTTPWebBrokerBridge, IdGlobal, Web.HTTPApp;
+  Vcl.AppEvnts, Vcl.StdCtrls, IdHTTPWebBrokerBridge, IdGlobal, Web.HTTPApp,
+  Vcl.ExtCtrls, System.Actions, Vcl.ActnList, Vcl.Menus;
 
 type
   TPostoServerMain = class(TForm)
-    ButtonStart: TButton;
-    ButtonStop: TButton;
     EditPort: TEdit;
-    Label1: TLabel;
-    ApplicationEvents1: TApplicationEvents;
+    lblPort: TLabel;
+    ApplicationEvents: TApplicationEvents;
     ButtonOpenBrowser: TButton;
+    TrayIcon: TTrayIcon;
+    PopupMenuTray: TPopupMenu;
+    Abrir1: TMenuItem;
+    N1: TMenuItem;
+    Iniciar1: TMenuItem;
+    Parar1: TMenuItem;
+    N2: TMenuItem;
+    Fechar1: TMenuItem;
+    ActionList: TActionList;
+    acAbrir: TAction;
+    acFechar: TAction;
+    acIniciar: TAction;
+    acParar: TAction;
+    btnOpcoes: TButton;
     procedure FormCreate(Sender: TObject);
-    procedure ApplicationEvents1Idle(Sender: TObject; var Done: Boolean);
+    procedure ApplicationEventsIdle(Sender: TObject; var Done: Boolean);
     procedure ButtonStartClick(Sender: TObject);
     procedure ButtonStopClick(Sender: TObject);
     procedure ButtonOpenBrowserClick(Sender: TObject);
+    procedure TrayIconClick(Sender: TObject);
+    procedure acIniciarExecute(Sender: TObject);
+    procedure acAbrirExecute(Sender: TObject);
+    procedure acFecharExecute(Sender: TObject);
+    procedure acPararExecute(Sender: TObject);
+    procedure btnOpcoesClick(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
   private
     FServer: TIdHTTPWebBrokerBridge;
     procedure StartServer;
@@ -41,11 +61,51 @@ implementation
 uses
   WinApi.Windows, Winapi.ShellApi, Datasnap.DSSession;
 
-procedure TPostoServerMain.ApplicationEvents1Idle(Sender: TObject; var Done: Boolean);
+procedure TerminateThreads;
 begin
-  ButtonStart.Enabled := not FServer.Active;
-  ButtonStop.Enabled := FServer.Active;
+  if TDSSessionManager.Instance <> nil then
+    TDSSessionManager.Instance.TerminateAllSessions;
+end;
+
+procedure TPostoServerMain.acAbrirExecute(Sender: TObject);
+begin
+  Self.Show;
+  Self.WindowState := wsNormal;
+end;
+
+procedure TPostoServerMain.acFecharExecute(Sender: TObject);
+begin
+  acParar.Execute;
+  Application.Terminate;
+end;
+
+procedure TPostoServerMain.acIniciarExecute(Sender: TObject);
+begin
+  StartServer;
+  acIniciar.Enabled := False;
+  acParar.Enabled := True;
+end;
+
+procedure TPostoServerMain.acPararExecute(Sender: TObject);
+begin
+  TerminateThreads;
+  FServer.Active := False;
+  FServer.Bindings.Clear;
+  acIniciar.Enabled := True;
+  acParar.Enabled := False;
+end;
+
+procedure TPostoServerMain.ApplicationEventsIdle(Sender: TObject; var Done: Boolean);
+begin
   EditPort.Enabled := not FServer.Active;
+end;
+
+procedure TPostoServerMain.btnOpcoesClick(Sender: TObject);
+var
+  pnt: TPoint;
+begin
+  if GetCursorPos(pnt) then
+    PopupMenuTray.Popup(pnt.X, pnt.Y);
 end;
 
 procedure TPostoServerMain.ButtonOpenBrowserClick(Sender: TObject);
@@ -64,12 +124,6 @@ begin
   StartServer;
 end;
 
-procedure TerminateThreads;
-begin
-  if TDSSessionManager.Instance <> nil then
-    TDSSessionManager.Instance.TerminateAllSessions;
-end;
-
 procedure TPostoServerMain.ButtonStopClick(Sender: TObject);
 begin
   TerminateThreads;
@@ -81,6 +135,12 @@ procedure TPostoServerMain.DoShow;
 begin
   inherited;
   StartServer;
+end;
+
+procedure TPostoServerMain.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+begin
+  CanClose := False;
+  Self.Hide;
 end;
 
 procedure TPostoServerMain.FormCreate(Sender: TObject);
@@ -95,8 +155,17 @@ begin
     FServer.Bindings.Clear;
     FServer.DefaultPort := StrToInt(EditPort.Text);
     FServer.Active := True;
+    TrayIcon.Visible := True;
   end;
 end;
 
+procedure TPostoServerMain.TrayIconClick(Sender: TObject);
+begin
+  Self.Show;
+  Self.WindowState := wsNormal;
+end;
+
 end.
+
+
 

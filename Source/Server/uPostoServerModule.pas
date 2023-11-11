@@ -14,16 +14,11 @@ type
     DSServerBomba: TDSServerClass;
     DSServerTanque: TDSServerClass;
     DSServerVenda: TDSServerClass;
-    procedure DSServerBaseGetClass(DSServerClass: TDSServerClass;
-      var PersistentClass: TPersistentClass);
-    procedure DSServerProdutoGetClass(DSServerClass: TDSServerClass;
-      var PersistentClass: TPersistentClass);
-    procedure DSServerBombaGetClass(DSServerClass: TDSServerClass;
-      var PersistentClass: TPersistentClass);
-    procedure DSServerTanqueGetClass(DSServerClass: TDSServerClass;
-      var PersistentClass: TPersistentClass);
-    procedure DSServerVendaGetClass(DSServerClass: TDSServerClass;
-      var PersistentClass: TPersistentClass);
+    procedure DSServerBaseGetClass(DSServerClass: TDSServerClass; var PersistentClass: TPersistentClass);
+    procedure DSServerProdutoGetClass(DSServerClass: TDSServerClass; var PersistentClass: TPersistentClass);
+    procedure DSServerBombaGetClass(DSServerClass: TDSServerClass; var PersistentClass: TPersistentClass);
+    procedure DSServerTanqueGetClass(DSServerClass: TDSServerClass; var PersistentClass: TPersistentClass);
+    procedure DSServerVendaGetClass(DSServerClass: TDSServerClass; var PersistentClass: TPersistentClass);
   private
     { Private declarations }
   public

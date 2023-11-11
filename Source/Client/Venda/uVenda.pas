@@ -10,7 +10,7 @@ uses
 
 type
   TVenda = class(TPostoBase)
-    pnl: TPanel;
+    pnlCenter: TPanel;
     PopupMenu: TPopupMenu;
     ActionList: TActionList;
     acVender: TAction;
@@ -18,13 +18,16 @@ type
     ImageList: TImageList;
     dsBombas: TDataSource;
     Vender1: TMenuItem;
-    Panel1: TPanel;
-    Button1: TButton;
-    Button2: TButton;
+    pnlTop: TPanel;
+    btnVender: TButton;
+    btnFechar: TButton;
     acFechar: TAction;
     dsBase: TDataSource;
     procedure acVenderExecute(Sender: TObject);
     procedure acFecharExecute(Sender: TObject);
+    procedure ListBombasDblClick(Sender: TObject);
+    procedure ListBombasKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
   private
     procedure CriarLista;
   protected
@@ -65,9 +68,6 @@ begin
       dsBase.DataSet.FieldByName('VR_VENDA').AsFloat := dsBombas.DataSet.FieldByName('VR_VENDA').AsFloat;
       dsBase.DataSet.FieldByName('PER_IMPOSTO').AsFloat := dsBombas.DataSet.FieldByName('PER_IMPOSTO').AsFloat;
       dsBase.DataSet.FieldByName('QTDE').AsFloat := 1;
-//      dsBase.DataSet.FieldByName('VR_TOTAL').AsFloat := 0;
-//      dsBase.DataSet.FieldByName('BC_IMPOSTO').AsFloat := 0;
-//      dsBase.DataSet.FieldByName('VR_IMPOSTO').AsFloat := 0;
       dsBase.DataSet.FieldByName('DATA').AsDateTime := Date;
       dsBase.DataSet.FieldByName('HORA').AsDateTime := Time;
       dsBase.DataSet.Post;
@@ -89,7 +89,7 @@ begin
     ListItem := ListBombas.Items.Add;
     ListItem.Caption := dsBombas.DataSet.FieldByName('NRO_BOMBA').AsString;
 
-    ListItem.SubItems.Add(dsBombas.DataSet.FieldByName('DS_PROD').AsString);
+    ListItem.SubItems.Add(dsBombas.DataSet.FieldByName('DS_PRODUTO').AsString);
     ListItem.SubItems.Add(FloatToStr(dsBombas.DataSet.FieldByName('VR_VENDA').AsFloat));
     ListItem.SubItems.Add(dsBombas.DataSet.FieldByName('ID_BOMBA').AsString);
 
@@ -101,6 +101,25 @@ procedure TVenda.DoShow;
 begin
   inherited;
   CriarLista;
+  if ListBombas.CanFocus then
+  begin
+    ListBombas.SetFocus;
+    if ListBombas.Items.Count > 0 then
+      ListBombas.ItemIndex := 0;
+  end;
+end;
+
+procedure TVenda.ListBombasDblClick(Sender: TObject);
+begin
+  inherited;
+  acVender.Execute;
+end;
+
+procedure TVenda.ListBombasKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  inherited;
+  if Key = VK_RETURN then
+    acVender.Execute;
 end;
 
 end.

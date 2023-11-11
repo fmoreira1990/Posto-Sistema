@@ -10,13 +10,13 @@ uses
 
 type
   TBombaEdit = class(TPostoClientEdit)
-    Label1: TLabel;
-    DBEdit1: TDBEdit;
-    DBLookupComboBox1: TDBLookupComboBox;
+    lblID: TLabel;
+    edtId: TDBEdit;
+    edtlkbTanque: TDBLookupComboBox;
     dsTanque: TDataSource;
-    DBEdit2: TDBEdit;
-    Label2: TLabel;
-    Label3: TLabel;
+    edtNumero: TDBEdit;
+    lblTanque: TLabel;
+    lblNumero: TLabel;
   private
   protected
     procedure DoShow; override;

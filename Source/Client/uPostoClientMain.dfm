@@ -1,9 +1,9 @@
 object PostoClientMain: TPostoClientMain
   Left = 0
   Top = 0
-  Caption = 'Posto Fortes'
-  ClientHeight = 561
-  ClientWidth = 984
+  Caption = 'Posto Fortes - Sistema de Gest'#227'o para Postos de Combust'#237'veis'
+  ClientHeight = 724
+  ClientWidth = 1024
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,24 +18,25 @@ object PostoClientMain: TPostoClientMain
   object pnlTop: TPanel
     Left = 0
     Top = 0
-    Width = 984
+    Width = 1024
     Height = 41
     Align = alTop
     BevelOuter = bvNone
     Caption = 'Posto Fortes'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -13
+    Font.Height = -20
     Font.Name = 'Tahoma'
-    Font.Style = [fsBold]
+    Font.Style = []
     ParentFont = False
     TabOrder = 0
+    ExplicitWidth = 984
   end
   object pnlCenter: TPanel
     Left = 0
     Top = 41
-    Width = 984
-    Height = 520
+    Width = 1024
+    Height = 683
     Align = alClient
     BevelOuter = bvNone
     Caption = 'pnlCenter'
@@ -47,6 +48,8 @@ object PostoClientMain: TPostoClientMain
     ParentFont = False
     ShowCaption = False
     TabOrder = 1
+    ExplicitWidth = 984
+    ExplicitHeight = 520
   end
   object MainMenu: TMainMenu
     Left = 320
@@ -86,11 +89,11 @@ object PostoClientMain: TPostoClientMain
       OnExecute = acBombaExecute
     end
     object acTanque: TAction
-      Caption = 'Tanque'
+      Caption = 'Tanques'
       OnExecute = acTanqueExecute
     end
     object acVendas: TAction
-      Caption = 'Vender'
+      Caption = 'Ponto de Vendas'
       OnExecute = acVendasExecute
     end
     object acRelatorios: TAction

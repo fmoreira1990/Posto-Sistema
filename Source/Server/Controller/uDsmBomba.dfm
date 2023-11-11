@@ -2,9 +2,6 @@ inherited DsmBomba: TDsmBomba
   OldCreateOrder = True
   Height = 398
   Width = 787
-  inherited Connection: TFDConnection
-    Connected = True
-  end
   inherited QueryBase: TFDQuery
     MasterFields = 'ID_BOMBA'
     UpdateOptions.AssignedValues = [uvGeneratorName]
@@ -16,7 +13,7 @@ inherited DsmBomba: TDsmBomba
       'select bb.*,'
       '       bb.numero as nro_bomba,'
       '       tt.numero as nro_tanque,'
-      '       pp.descricao as ds_prod'
+      '       pp.descricao as ds_produto'
       'from tb_bomba bb'
       'inner join tb_tanque  tt on tt.id_tanque  = bb.id_tanque'
       'inner join tb_produto pp on pp.id_produto = tt.id_produto'
@@ -42,7 +39,7 @@ inherited DsmBomba: TDsmBomba
       '       bb.numero as nro_bomba,'
       '       tt.numero as nro_tanque,'
       '       pp.id_produto,'
-      '       pp.descricao as ds_prod,'
+      '       pp.descricao as ds_produto,'
       '       pp.vr_venda,'
       '       pp.vr_custo,'
       '       pp.per_imposto'
@@ -65,20 +62,5 @@ inherited DsmBomba: TDsmBomba
       Origin = 'NUMERO'
       Required = True
     end
-  end
-  object QueryTanqueCons: TFDQuery
-    Connection = Connection
-    UpdateOptions.AssignedValues = [uvGeneratorName]
-    UpdateOptions.GeneratorName = 'G_ID_TANQUE'
-    UpdateOptions.UpdateTableName = 'TB_TANQUE'
-    UpdateOptions.KeyFields = 'ID_TANQUE'
-    UpdateOptions.AutoIncFields = 'ID_TANQUE'
-    SQL.Strings = (
-      'select tt.*,'
-      '        pp.descricao as ds_prod'
-      'from tb_tanque tt'
-      'inner join tb_produto pp on pp.id_produto = tt.id_produto')
-    Left = 544
-    Top = 280
   end
 end

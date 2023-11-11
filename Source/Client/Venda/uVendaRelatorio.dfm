@@ -1,5 +1,5 @@
 inherited VendaRelatorio: TVendaRelatorio
-  Caption = 'VendaRelatorio'
+  Caption = 'Relat'#243'rio de Venda'
   ClientHeight = 649
   ClientWidth = 820
   ExplicitWidth = 836

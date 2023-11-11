@@ -36,8 +36,8 @@ inherited BombaDAO: TBombaDAO
       KeyFields = 'ID_TANQUE'
       Lookup = True
     end
-    object memBaseDS_PROD: TStringField
-      FieldName = 'DS_PROD'
+    object memBaseDS_PRODUTO: TStringField
+      FieldName = 'DS_PRODUTO'
       Size = 50
     end
   end
@@ -106,8 +106,8 @@ inherited BombaDAO: TBombaDAO
     object memTanqueConsNUMERO: TIntegerField
       FieldName = 'NUMERO'
     end
-    object memTanqueConsDS_PROD: TStringField
-      FieldName = 'DS_PROD'
+    object memTanqueConsDS_PRODUTO: TStringField
+      FieldName = 'DS_PRODUTO'
       Size = 50
     end
     object memTanqueConsCAPACIDADE: TFMTBCDField
@@ -117,7 +117,7 @@ inherited BombaDAO: TBombaDAO
   end
   object FDStoredProcTaqueCons: TFDStoredProc
     Connection = FDConnection
-    StoredProcName = 'TDsmBomba.ListTanques'
+    StoredProcName = 'TDsmTanque.ListTanques'
     Left = 720
     Top = 232
     ParamData = <
@@ -125,38 +125,6 @@ inherited BombaDAO: TBombaDAO
         Name = 'ReturnValue'
         DataType = ftBlob
         ParamType = ptResult
-        Value = 
-          '{"FDBS":{"Version":15,"Manager":{"UpdatesRegistry":true,"TableLi' +
-          'st":[{"class":"Table","Name":"QueryTanqueCons","SourceName":"tb_' +
-          'tanque","SourceID":1,"TabID":0,"EnforceConstraints":false,"Minim' +
-          'umCapacity":50,"ColumnList":[{"class":"Column","Name":"ID_TANQUE' +
-          '","SourceName":"ID_TANQUE","SourceID":1,"DataType":"Int32","Sear' +
-          'chable":true,"AllowNull":true,"AutoInc":true,"Base":true,"AutoIn' +
-          'crementSeed":-1,"AutoIncrementStep":-1,"OAllowNull":true,"OInUpd' +
-          'ate":true,"OInWhere":true,"OInKey":true,"OAfterInsChanged":true,' +
-          '"OriginTabName":"TB_TANQUE","OriginColName":"ID_TANQUE","SourceG' +
-          'enerator":"G_ID_TANQUE"},{"class":"Column","Name":"ID_PRODUTO","' +
-          'SourceName":"ID_PRODUTO","SourceID":2,"DataType":"Int32","Search' +
-          'able":true,"Base":true,"OInUpdate":true,"OInWhere":true,"OriginT' +
-          'abName":"TB_TANQUE","OriginColName":"ID_PRODUTO","SourceGenerato' +
-          'r":"G_ID_TANQUE"},{"class":"Column","Name":"CAPACIDADE","SourceN' +
-          'ame":"CAPACIDADE","SourceID":3,"DataType":"FmtBCD","Precision":1' +
-          '8,"Scale":2,"Searchable":true,"AllowNull":true,"Base":true,"OAll' +
-          'owNull":true,"OInUpdate":true,"OInWhere":true,"OriginTabName":"T' +
-          'B_TANQUE","OriginColName":"CAPACIDADE","SourcePrecision":18,"Sou' +
-          'rceScale":2,"SourceGenerator":"G_ID_TANQUE"},{"class":"Column","' +
-          'Name":"NUMERO","SourceName":"NUMERO","SourceID":4,"DataType":"In' +
-          't32","Searchable":true,"Base":true,"OInUpdate":true,"OInWhere":t' +
-          'rue,"OriginTabName":"TB_TANQUE","OriginColName":"NUMERO","Source' +
-          'Generator":"G_ID_TANQUE"},{"class":"Column","Name":"DS_PROD","So' +
-          'urceName":"DS_PROD","SourceID":5,"DataType":"AnsiString","Size":' +
-          '50,"Searchable":true,"AllowNull":true,"Default":true,"OAllowNull' +
-          '":true,"OReadOnly":true,"OAfterInsChanged":true,"OAfterUpdChange' +
-          'd":true,"OriginTabName":"TB_PRODUTO","OriginColName":"DESCRICAO"' +
-          ',"SourceSize":50,"SourceGenerator":"G_ID_TANQUE"}],"ConstraintLi' +
-          'st":[],"ViewList":[],"RowList":[{"RowID":0,"Original":{"ID_TANQU' +
-          'E":1,"ID_PRODUTO":1,"CAPACIDADE":5000,"NUMERO":1,"DS_PROD":"GASO' +
-          'LINA"}}]}],"RelationList":[],"UpdatesJournal":{"Changes":[]}}}}'
       end>
   end
 end

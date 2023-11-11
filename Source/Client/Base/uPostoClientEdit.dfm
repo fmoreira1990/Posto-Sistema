@@ -1,20 +1,21 @@
 inherited PostoClientEdit: TPostoClientEdit
   BorderIcons = [biMinimize, biMaximize]
   Caption = 'Edi'#231#227'o do Cadastro'
-  ClientHeight = 277
-  Position = poMainFormCenter
-  ExplicitHeight = 316
+  ClientHeight = 400
+  ClientWidth = 700
+  ExplicitWidth = 716
+  ExplicitHeight = 439
   PixelsPerInch = 96
   TextHeight = 13
   object pnlTop: TPanel
     Left = 0
     Top = 0
-    Width = 635
+    Width = 700
     Height = 41
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitWidth = 651
+    ExplicitWidth = 635
     object btnSalvar: TButton
       Left = 21
       Top = 9

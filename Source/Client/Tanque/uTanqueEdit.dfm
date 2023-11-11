@@ -1,38 +1,42 @@
 inherited TanqueEdit: TTanqueEdit
-  Caption = 'TanqueEdit'
-  ClientHeight = 299
-  ExplicitHeight = 338
+  Caption = 'Edi'#231#227'o - Cadastro de Tanques'
+  ClientWidth = 600
+  ExplicitWidth = 616
   PixelsPerInch = 96
   TextHeight = 13
-  object Label1: TLabel [0]
+  object lblID: TLabel [0]
     Left = 24
     Top = 67
     Width = 50
     Height = 13
     Caption = 'ID Tanque'
   end
-  object Label2: TLabel [1]
+  object lblProd: TLabel [1]
     Left = 24
     Top = 170
     Width = 99
     Height = 13
     Caption = 'Produto Arnazenado'
   end
-  object Label3: TLabel [2]
+  object lblCapacidade: TLabel [2]
     Left = 24
     Top = 99
     Width = 56
     Height = 13
     Caption = 'Capacidade'
   end
-  object Label4: TLabel [3]
+  object lblNumero: TLabel [3]
     Left = 24
     Top = 133
     Width = 91
     Height = 13
     Caption = 'Numero do Tanque'
   end
-  object DBEdit1: TDBEdit [5]
+  inherited pnlTop: TPanel
+    Width = 600
+    ExplicitWidth = 700
+  end
+  object edtID: TDBEdit [5]
     Left = 152
     Top = 64
     Width = 121
@@ -42,7 +46,7 @@ inherited TanqueEdit: TTanqueEdit
     ReadOnly = True
     TabOrder = 1
   end
-  object DBLookupComboBox1: TDBLookupComboBox [6]
+  object edtckbProd: TDBLookupComboBox [6]
     Left = 152
     Top = 166
     Width = 273
@@ -54,7 +58,7 @@ inherited TanqueEdit: TTanqueEdit
     ListSource = dsProdCons
     TabOrder = 4
   end
-  object DBEdit2: TDBEdit [7]
+  object edtCapacidade: TDBEdit [7]
     Left = 152
     Top = 96
     Width = 121
@@ -63,7 +67,7 @@ inherited TanqueEdit: TTanqueEdit
     DataSource = dsBase
     TabOrder = 2
   end
-  object DBEdit3: TDBEdit [8]
+  object edtNumero: TDBEdit [8]
     Left = 152
     Top = 130
     Width = 121

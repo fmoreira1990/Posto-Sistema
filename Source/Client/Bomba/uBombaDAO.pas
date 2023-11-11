@@ -21,11 +21,11 @@ type
     memBaseNUMERO: TIntegerField;
     memTanqueConsID_PRODUTO: TIntegerField;
     memTanqueConsNUMERO: TIntegerField;
-    memTanqueConsDS_PROD: TStringField;
+    memTanqueConsDS_PRODUTO: TStringField;
     memTanqueConsCAPACIDADE: TFMTBCDField;
     memBaseNRO_BOMBA: TIntegerField;
     memBaseNRO_TANQUE: TIntegerField;
-    memBaseDS_PROD: TStringField;
+    memBaseDS_PRODUTO: TStringField;
   private
     { Private declarations }
   public

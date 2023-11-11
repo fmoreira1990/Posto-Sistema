@@ -1,21 +1,21 @@
 inherited PostoClientCad: TPostoClientCad
   Caption = 'Cadastro Principal'
-  ClientHeight = 419
-  ClientWidth = 812
+  ClientHeight = 600
+  ClientWidth = 800
   Position = poOwnerFormCenter
-  ExplicitWidth = 828
-  ExplicitHeight = 458
+  ExplicitWidth = 816
+  ExplicitHeight = 639
   PixelsPerInch = 96
   TextHeight = 13
   object pnlTop: TPanel
     Left = 0
     Top = 0
-    Width = 812
+    Width = 800
     Height = 41
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitWidth = 651
+    ExplicitWidth = 812
     object btnConsultar: TButton
       Left = 10
       Top = 10
@@ -63,8 +63,8 @@ inherited PostoClientCad: TPostoClientCad
     AlignWithMargins = True
     Left = 3
     Top = 44
-    Width = 806
-    Height = 372
+    Width = 794
+    Height = 553
     Align = alClient
     DataSource = dsLista
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]

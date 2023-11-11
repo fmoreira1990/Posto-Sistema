@@ -21,11 +21,11 @@ object PostoWebModule: TPostoWebModule
   BeforeDispatch = WebModuleBeforeDispatch
   Height = 333
   Width = 414
-  object DSHTTPWebDispatcher1: TDSHTTPWebDispatcher
+  object DSHTTPWebDispatcher: TDSHTTPWebDispatcher
     Filters = <>
     WebDispatch.PathInfo = 'datasnap*'
-    Left = 96
-    Top = 75
+    Left = 208
+    Top = 123
   end
   object ServerFunctionInvoker: TPageProducer
     HTMLFile = 'templates/serverfunctioninvoker.html'
@@ -36,10 +36,10 @@ object PostoWebModule: TPostoWebModule
   object ReverseString: TPageProducer
     HTMLFile = 'templates/reversestring.html'
     OnHTMLTag = ServerFunctionInvokerHTMLTag
-    Left = 168
+    Left = 208
     Top = 184
   end
-  object WebFileDispatcher1: TWebFileDispatcher
+  object WebFileDispatcher: TWebFileDispatcher
     WebFileExtensions = <
       item
         MimeType = 'text/css'
@@ -65,7 +65,7 @@ object PostoWebModule: TPostoWebModule
         MimeType = 'image/gif'
         Extensions = 'gif'
       end>
-    BeforeDispatch = WebFileDispatcher1BeforeDispatch
+    BeforeDispatch = WebFileDispatcherBeforeDispatch
     WebDirectories = <
       item
         DirectoryAction = dirInclude
@@ -78,16 +78,16 @@ object PostoWebModule: TPostoWebModule
     RootDirectory = '.'
     VirtualPath = '/'
     Left = 56
-    Top = 136
+    Top = 120
   end
-  object DSProxyGenerator1: TDSProxyGenerator
+  object DSProxyGenerator: TDSProxyGenerator
     ExcludeClasses = 'DSMetadata'
-    MetaDataProvider = DSServerMetaDataProvider1
+    MetaDataProvider = DSServerMetaDataProvider
     Writer = 'Java Script REST'
     Left = 48
     Top = 248
   end
-  object DSServerMetaDataProvider1: TDSServerMetaDataProvider
+  object DSServerMetaDataProvider: TDSServerMetaDataProvider
     Left = 208
     Top = 248
   end

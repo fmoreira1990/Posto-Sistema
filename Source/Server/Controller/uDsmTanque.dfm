@@ -1,9 +1,7 @@
 inherited DsmTanque: TDsmTanque
+  OldCreateOrder = True
   Height = 367
   Width = 711
-  inherited Connection: TFDConnection
-    Connected = True
-  end
   inherited QueryBase: TFDQuery
     UpdateOptions.AssignedValues = [uvGeneratorName]
     UpdateOptions.GeneratorName = 'G_ID_TANQUE'

@@ -33,14 +33,14 @@ type
     procedure DoException(Sender: TObject; E: Exception);
   protected
     function DoConsultar: Boolean; overload; virtual;
-    function DoConsultar(const pDataSet: TFDMemTable; pStoredProcConsulta: TFDStoredProc): Boolean; overload; virtual;
+    function DoConsultar(const pDataSet: TDataSet; pStoredProcConsulta: TObject): Boolean; overload; virtual;
     function DoConsultar(const pIDProduto: integer): Boolean; overload; virtual;
-    function DoSalvar(const pDataSet: TFDMemTable): Boolean; virtual;
-    function DoEdit(const pDataSet: TFDMemTable): Boolean; virtual;
-    function DoCancelar(const pDataSet: TFDMemTable): Boolean; virtual;
-    function DoDelete(const pDataSet: TFDMemTable): Boolean; virtual;
-    function DoInsert(const pDataSet: TFDMemTable): Boolean; virtual;
-    function DoOpen(const pDataSet: TFDMemTable): Boolean; overload; virtual;
+    function DoSalvar(const pDataSet: TDataSet): Boolean; virtual;
+    function DoEdit(const pDataSet: TDataSet): Boolean; virtual;
+    function DoCancelar(const pDataSet: TDataSet): Boolean; virtual;
+    function DoDelete(const pDataSet: TDataSet): Boolean; virtual;
+    function DoInsert(const pDataSet: TDataSet): Boolean; virtual;
+    function DoOpen(const pDataSet: TDataSet): Boolean; overload; virtual;
     function DoOpen(const pID: Integer): Boolean; overload; virtual;
     function CanPost: Boolean; virtual;
     procedure DoBeforePost(pDataSet: TDataSet); virtual;
@@ -143,7 +143,7 @@ begin
   begin
     if Components[I] is TFDMemTable then
     begin
-     // if Components[I] <> memLista then
+      // if Components[I] <> memLista then
       begin
         TFDMemTable(Components[I]).BeforePost := DoBeforePost;
         TFDMemTable(Components[I]).AfterOpen := DoAfterOpen;
@@ -178,10 +178,10 @@ begin
   end;
 end;
 
-function TPostoClientDAO.DoCancelar(const pDataSet: TFDMemTable): Boolean;
+function TPostoClientDAO.DoCancelar(const pDataSet: TDataSet): Boolean;
 begin
   Result := False;
-  pDataSet.Adapter.SchemaAdapter.CancelUpdates;
+  TFDMemTable(pDataSet).Adapter.SchemaAdapter.CancelUpdates;
   Result := True;
 end;
 
@@ -213,7 +213,7 @@ begin
   end;
 end;
 
-function TPostoClientDAO.DoDelete(const pDataSet: TFDMemTable): Boolean;
+function TPostoClientDAO.DoDelete(const pDataSet: TDataSet): Boolean;
 begin
   Result := False;
   if memLista.Active then
@@ -226,7 +226,7 @@ begin
   end;
 end;
 
-function TPostoClientDAO.DoEdit(const pDataSet: TFDMemTable): Boolean;
+function TPostoClientDAO.DoEdit(const pDataSet: TDataSet): Boolean;
 begin
   Result := False;
   if memLista.Active then
@@ -299,19 +299,19 @@ begin
   end;
 end;
 
-function TPostoClientDAO.DoConsultar(const pDataSet: TFDMemTable; pStoredProcConsulta: TFDStoredProc): Boolean;
+function TPostoClientDAO.DoConsultar(const pDataSet: TDataSet; pStoredProcConsulta: TObject): Boolean;
 var
   LStringStream: TStream;
 begin
   Result := False;
   pDataSet.Close;
-  pStoredProcConsulta.ExecProc;
-  LStringStream := TStringStream.Create(pStoredProcConsulta.Params[0].AsBlob);
+  TFDStoredProc(pStoredProcConsulta).ExecProc;
+  LStringStream := TStringStream.Create(TFDStoredProc(pStoredProcConsulta).Params[0].AsBlob);
   try
     if LStringStream <> nil then
     begin
       LStringStream.Position := 0;
-      pDataSet.LoadFromStream(LStringStream, TFDStorageFormat.sfJSON);
+      TFDMemTable(pDataSet).LoadFromStream(LStringStream, TFDStorageFormat.sfJSON);
       Result := True;
     end;
   finally
@@ -319,7 +319,7 @@ begin
   end;
 end;
 
-function TPostoClientDAO.DoInsert(const pDataSet: TFDMemTable): Boolean;
+function TPostoClientDAO.DoInsert(const pDataSet: TDataSet): Boolean;
 begin
   Result := False;
   DoOpen(0);
@@ -332,7 +332,7 @@ begin
   Result := DoConsultar(pID);
 end;
 
-function TPostoClientDAO.DoOpen(const pDataSet: TFDMemTable): Boolean;
+function TPostoClientDAO.DoOpen(const pDataSet: TDataSet): Boolean;
 begin
   if pDataSet.Active then
     pDataSet.Close;
@@ -343,7 +343,7 @@ begin
     pDataSet.Open;
 end;
 
-function TPostoClientDAO.DoSalvar(const pDataSet: TFDMemTable): Boolean;
+function TPostoClientDAO.DoSalvar(const pDataSet: TDataSet): Boolean;
 var
   LMemStream: TMemoryStream;
   I: integer;
@@ -351,9 +351,9 @@ var
 begin
   Result := False;
 
-  for I := 0 to pDataSet.Adapter.SchemaAdapter.Count - 1 do
+  for I := 0 to TFDMemTable(pDataSet).Adapter.SchemaAdapter.Count - 1 do
   begin
-    LDataSet := pDataSet.Adapter.SchemaAdapter.DataSets[I];
+    LDataSet := TFDMemTable(pDataSet).Adapter.SchemaAdapter.DataSets[I];
     if LDataSet <> nil then
       if LDataSet.State in dsEditModes then
         LDataSet.Post;
@@ -363,8 +363,8 @@ begin
   LMemStream := TMemoryStream.Create;
   try
     try
-      pDataSet.Adapter.SchemaAdapter.ResourceOptions.StoreItems := [siDelta, siMeta];
-      pDataSet.Adapter.SchemaAdapter.SaveToStream(LMemStream, TFDStorageFormat.sfJSON);
+      TFDMemTable(pDataSet).Adapter.SchemaAdapter.ResourceOptions.StoreItems := [siDelta, siMeta];
+      TFDMemTable(pDataSet).Adapter.SchemaAdapter.SaveToStream(LMemStream, TFDStorageFormat.sfJSON);
       LMemStream.Position := 0;
 
       FDStoredProcPost.Params[0].asStream := LMemStream;

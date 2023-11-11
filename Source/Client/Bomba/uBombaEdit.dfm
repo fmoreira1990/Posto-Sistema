@@ -1,26 +1,24 @@
 inherited BombaEdit: TBombaEdit
-  Caption = 'BombaEdit'
-  ClientHeight = 260
-  ClientWidth = 619
-  ExplicitWidth = 635
-  ExplicitHeight = 299
+  Caption = 'Edi'#231#227'o - Cadastro de Bombas'
+  ClientWidth = 600
+  ExplicitWidth = 616
   PixelsPerInch = 96
   TextHeight = 13
-  object Label1: TLabel [0]
+  object lblID: TLabel [0]
     Left = 24
     Top = 67
     Width = 46
     Height = 13
     Caption = 'ID Bomba'
   end
-  object Label2: TLabel [1]
+  object lblTanque: TLabel [1]
     Left = 24
     Top = 135
     Width = 36
     Height = 13
     Caption = 'Tanque'
   end
-  object Label3: TLabel [2]
+  object lblNumero: TLabel [2]
     Left = 24
     Top = 99
     Width = 37
@@ -28,10 +26,10 @@ inherited BombaEdit: TBombaEdit
     Caption = 'Numero'
   end
   inherited pnlTop: TPanel
-    Width = 619
-    ExplicitWidth = 635
+    Width = 600
+    ExplicitWidth = 600
   end
-  object DBEdit1: TDBEdit [4]
+  object edtId: TDBEdit [4]
     Left = 152
     Top = 64
     Width = 121
@@ -41,7 +39,7 @@ inherited BombaEdit: TBombaEdit
     ReadOnly = True
     TabOrder = 1
   end
-  object DBLookupComboBox1: TDBLookupComboBox [5]
+  object edtlkbTanque: TDBLookupComboBox [5]
     Left = 152
     Top = 131
     Width = 250
@@ -49,11 +47,11 @@ inherited BombaEdit: TBombaEdit
     DataField = 'NRO_TANQUE'
     DataSource = dsBase
     KeyField = 'ID_TANQUE'
-    ListField = 'NUMERO;DS_PROD'
+    ListField = 'NUMERO;DS_PRODUTO'
     ListSource = dsTanque
     TabOrder = 3
   end
-  object DBEdit2: TDBEdit [6]
+  object edtNumero: TDBEdit [6]
     Left = 152
     Top = 96
     Width = 121
@@ -61,9 +59,6 @@ inherited BombaEdit: TBombaEdit
     DataField = 'NUMERO'
     DataSource = dsBase
     TabOrder = 2
-  end
-  inherited dsBase: TDataSource
-    DataSet = BombaDAO.memBase
   end
   object dsTanque: TDataSource
     DataSet = BombaDAO.memTanqueCons

@@ -26,6 +26,7 @@ uses
 
 begin
   Application.Initialize;
+  Application.Title := 'Posto Fortes - Sistema de Gestão para Postos de Combustíveis';
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TPostoClientMain, PostoClientMain);
   Application.Run;

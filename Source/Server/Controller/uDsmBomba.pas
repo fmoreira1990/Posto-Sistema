@@ -17,12 +17,10 @@ type
     QueryListaID_BOMBA: TIntegerField;
     QueryListaID_TANQUE: TIntegerField;
     QueryListaNUMERO: TIntegerField;
-    QueryTanqueCons: TFDQuery;
   private
     { Private declarations }
   public
     { Public declarations }
-    function ListTanques: TStream;
     function ListBombas: TStream;
     function Bombas(const pIdBomba: integer): TStream;
 
@@ -53,17 +51,6 @@ begin
   Result := nil;
   try
     Result := List(QueryLista);
-  except on
-    E: Exception do
-      raise;
-  end;
-end;
-
-function TDsmBomba.ListTanques: TStream;
-begin
-  Result := nil;
-  try
-    Result := List(QueryTanqueCons);
   except on
     E: Exception do
       raise;

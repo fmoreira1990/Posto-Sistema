@@ -13,19 +13,19 @@ uses
 
 type
   TPostoWebModule = class(TWebModule)
-    DSHTTPWebDispatcher1: TDSHTTPWebDispatcher;
+    DSHTTPWebDispatcher: TDSHTTPWebDispatcher;
     ServerFunctionInvoker: TPageProducer;
     ReverseString: TPageProducer;
-    WebFileDispatcher1: TWebFileDispatcher;
-    DSProxyGenerator1: TDSProxyGenerator;
-    DSServerMetaDataProvider1: TDSServerMetaDataProvider;
+    WebFileDispatcher: TWebFileDispatcher;
+    DSProxyGenerator: TDSProxyGenerator;
+    DSServerMetaDataProvider: TDSServerMetaDataProvider;
     procedure ServerFunctionInvokerHTMLTag(Sender: TObject; Tag: TTag;
       const TagString: string; TagParams: TStrings; var ReplaceText: string);
     procedure WebModuleDefaultAction(Sender: TObject;
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
     procedure WebModuleBeforeDispatch(Sender: TObject;
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
-    procedure WebFileDispatcher1BeforeDispatch(Sender: TObject;
+    procedure WebFileDispatcherBeforeDispatch(Sender: TObject;
       const AFileName: string; Request: TWebRequest; Response: TWebResponse;
       var Handled: Boolean);
     procedure WebModuleCreate(Sender: TObject);
@@ -59,7 +59,7 @@ begin
   else if SameText(TagString, 'classname') then
     ReplaceText := uDsmbase.TDsmBase.ClassName
   else if SameText(TagString, 'loginrequired') then
-    if DSHTTPWebDispatcher1.AuthenticationManager <> nil then
+    if DSHTTPWebDispatcher.AuthenticationManager <> nil then
       ReplaceText := 'true'
     else
       ReplaceText := 'false'
@@ -98,7 +98,7 @@ begin
     (Request.RemoteAddr = '0:0:0:0:0:0:0:1') or (Request.RemoteAddr = '::1');
 end;
 
-procedure TPostoWebModule.WebFileDispatcher1BeforeDispatch(Sender: TObject;
+procedure TPostoWebModule.WebFileDispatcherBeforeDispatch(Sender: TObject;
   const AFileName: string; Request: TWebRequest; Response: TWebResponse;
   var Handled: Boolean);
 var
@@ -108,21 +108,21 @@ begin
   if SameFileName(ExtractFileName(AFileName), 'serverfunctions.js') then
     if not FileExists(AFileName) or (FileAge(AFileName, D1) and FileAge(WebApplicationFileName, D2) and (D1 < D2)) then
     begin
-      DSProxyGenerator1.TargetDirectory := ExtractFilePath(AFileName);
-      DSProxyGenerator1.TargetUnitName := ExtractFileName(AFileName);
-      DSProxyGenerator1.Write;
+      DSProxyGenerator.TargetDirectory := ExtractFilePath(AFileName);
+      DSProxyGenerator.TargetUnitName := ExtractFileName(AFileName);
+      DSProxyGenerator.Write;
     end;
 end;
 
 procedure TPostoWebModule.WebModuleCreate(Sender: TObject);
 begin
   FServerFunctionInvokerAction := ActionByName('ServerFunctionInvokerAction');
-  DSServerMetaDataProvider1.Server := DSServer;
-  DSHTTPWebDispatcher1.Server := DSServer;
+  DSServerMetaDataProvider.Server := DSServer;
+  DSHTTPWebDispatcher.Server := DSServer;
   if DSServer.Started then
   begin
-    DSHTTPWebDispatcher1.DbxContext := DSServer.DbxContext;
-    DSHTTPWebDispatcher1.Start;
+    DSHTTPWebDispatcher.DbxContext := DSServer.DbxContext;
+    DSHTTPWebDispatcher.Start;
   end;
 end;
 

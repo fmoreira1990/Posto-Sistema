@@ -1,10 +1,14 @@
 
 Source/__history
-Source/Server/Win32
 Source/Client/__recovery
 Source/Client/__history
 Source/Client/Win32
 Source/Client/Venda/__history
+Source/Client/Base/__history
+Source/Client/Bomba/__history
+Source/Client/Produtos/__history
+Source/Client/Tanque/__history
+Source/Server/Win32
 Source/Server/__history
 Source/Server/Controller/__history
 *.local

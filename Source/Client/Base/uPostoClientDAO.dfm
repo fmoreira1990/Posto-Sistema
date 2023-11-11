@@ -40,7 +40,6 @@ object PostoClientDAO: TPostoClientDAO
     ResourceOptions.AssignedValues = [rvAutoReconnect]
     ResourceOptions.AutoReconnect = True
     ConnectedStoredUsage = [auDesignTime]
-    Connected = True
     LoginPrompt = False
     Left = 200
     Top = 16

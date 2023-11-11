@@ -5,7 +5,6 @@ inherited DsmVenda: TDsmVenda
   inherited Connection: TFDConnection
     FormatOptions.AssignedValues = [fvMaxBcdPrecision, fvMaxBcdScale, fvRound2Scale]
     FormatOptions.OwnMapRules = False
-    Connected = True
   end
   inherited QueryBase: TFDQuery
     MasterFields = 'ID_VENDA'

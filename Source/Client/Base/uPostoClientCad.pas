@@ -45,9 +45,6 @@ type
 
 implementation
 
-uses
-  FireDAC.Comp.Client;
-
 {$R *.dfm}
 
 procedure TPostoClientCad.acConsultarExecute(Sender: TObject);
@@ -57,8 +54,8 @@ end;
 
 procedure TPostoClientCad.acExcluirExecute(Sender: TObject);
 begin
-  if DAO.DoDelete(TFDMemTable(dsBase.DataSet)) then
-    DAO.DoSalvar(TFDMemTable(dsBase.DataSet));
+  if DAO.DoDelete(dsBase.DataSet) then
+    DAO.DoSalvar(dsBase.DataSet);
 end;
 
 procedure TPostoClientCad.acFecharExecute(Sender: TObject);
@@ -70,13 +67,13 @@ end;
 
 procedure TPostoClientCad.acEditarExecute(Sender: TObject);
 begin
-  if DAO.DoEdit(TFDMemTable(dsBase.DataSet)) then
+  if DAO.DoEdit(dsBase.DataSet) then
     FPostoClientEdit.ShowModal;
 end;
 
 procedure TPostoClientCad.acIncluirExecute(Sender: TObject);
 begin
-  if DAO.DoInsert(TFDMemTable(dsBase.DataSet)) then
+  if DAO.DoInsert(dsBase.DataSet) then
     FPostoClientEdit.ShowModal;
 end;
 
@@ -104,7 +101,7 @@ end;
 
 procedure TPostoClientCad.GridKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-  if Key = 13 then
+  if Key = VK_RETURN then
     acEditar.Execute;
 end;
 

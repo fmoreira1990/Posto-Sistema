@@ -1,10 +1,14 @@
 inherited VendaFinalizar: TVendaFinalizar
-  Caption = 'VendaFinalizar'
+  Caption = 'Fechamento da Venda - Posto Fortes'
+  ClientHeight = 400
+  ClientWidth = 600
+  ExplicitWidth = 616
+  ExplicitHeight = 439
   PixelsPerInch = 96
   TextHeight = 13
-  object Label1: TLabel
+  object lblQtde: TLabel
     Left = 121
-    Top = 99
+    Top = 139
     Width = 103
     Height = 24
     Caption = 'Quantidade'
@@ -15,9 +19,9 @@ inherited VendaFinalizar: TVendaFinalizar
     Font.Style = []
     ParentFont = False
   end
-  object Label2: TLabel
+  object lblVrVenda: TLabel
     Left = 121
-    Top = 147
+    Top = 187
     Width = 136
     Height = 24
     Caption = 'Valor de Venda'
@@ -28,9 +32,9 @@ inherited VendaFinalizar: TVendaFinalizar
     Font.Style = []
     ParentFont = False
   end
-  object Label3: TLabel
+  object lblVrTotal: TLabel
     Left = 121
-    Top = 195
+    Top = 235
     Width = 136
     Height = 24
     Caption = 'Total da Venda'
@@ -41,17 +45,42 @@ inherited VendaFinalizar: TVendaFinalizar
     Font.Style = []
     ParentFont = False
   end
-  object Panel1: TPanel
+  object lblProd: TLabel
+    Left = 16
+    Top = 339
+    Width = 39
+    Height = 16
+    Caption = 'lblProd'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
+  object lblBomba: TLabel
+    Left = 16
+    Top = 358
+    Width = 52
+    Height = 16
+    Caption = 'lblBomba'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
+  object pnlTop: TPanel
     Left = 0
     Top = 0
-    Width = 635
+    Width = 600
     Height = 41
     Align = alTop
-    Caption = 'Panel1'
+    BevelOuter = bvNone
     TabOrder = 0
-    ExplicitLeft = -335
-    ExplicitWidth = 970
-    object Button1: TButton
+    ExplicitWidth = 635
+    object btnConcluir: TButton
       Left = 16
       Top = 9
       Width = 75
@@ -59,7 +88,7 @@ inherited VendaFinalizar: TVendaFinalizar
       Action = acConcluir
       TabOrder = 0
     end
-    object Button2: TButton
+    object btnCancelar: TButton
       Left = 97
       Top = 9
       Width = 75
@@ -68,9 +97,9 @@ inherited VendaFinalizar: TVendaFinalizar
       TabOrder = 1
     end
   end
-  object DBEdit1: TDBEdit
+  object edtQtde: TDBEdit
     Left = 272
-    Top = 96
+    Top = 136
     Width = 121
     Height = 32
     DataField = 'QTDE'
@@ -83,9 +112,9 @@ inherited VendaFinalizar: TVendaFinalizar
     ParentFont = False
     TabOrder = 1
   end
-  object DBEdit2: TDBEdit
+  object edtVrVenda: TDBEdit
     Left = 272
-    Top = 144
+    Top = 184
     Width = 121
     Height = 32
     TabStop = False
@@ -100,9 +129,9 @@ inherited VendaFinalizar: TVendaFinalizar
     ReadOnly = True
     TabOrder = 2
   end
-  object DBEdit3: TDBEdit
+  object edtVrTotal: TDBEdit
     Left = 272
-    Top = 192
+    Top = 232
     Width = 121
     Height = 32
     TabStop = False
@@ -134,5 +163,10 @@ inherited VendaFinalizar: TVendaFinalizar
     DataSet = VendaDAO.memBase
     Left = 416
     Top = 136
+  end
+  object dsBombas: TDataSource
+    DataSet = VendaDAO.memBombaCons
+    Left = 416
+    Top = 208
   end
 end

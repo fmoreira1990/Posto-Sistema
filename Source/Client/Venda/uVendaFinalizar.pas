@@ -10,19 +10,22 @@ uses
 
 type
   TVendaFinalizar = class(TPostoBase)
-    Panel1: TPanel;
-    Button1: TButton;
-    Button2: TButton;
+    pnlTop: TPanel;
+    btnConcluir: TButton;
+    btnCancelar: TButton;
     ActionList: TActionList;
     acCancelar: TAction;
     acConcluir: TAction;
-    DBEdit1: TDBEdit;
-    Label1: TLabel;
-    Label2: TLabel;
-    Label3: TLabel;
-    DBEdit2: TDBEdit;
-    DBEdit3: TDBEdit;
+    edtQtde: TDBEdit;
+    lblQtde: TLabel;
+    lblVrVenda: TLabel;
+    lblVrTotal: TLabel;
+    edtVrVenda: TDBEdit;
+    edtVrTotal: TDBEdit;
     dsBase: TDataSource;
+    lblProd: TLabel;
+    dsBombas: TDataSource;
+    lblBomba: TLabel;
     procedure acCancelarExecute(Sender: TObject);
     procedure acConcluirExecute(Sender: TObject);
   private
@@ -36,15 +39,12 @@ type
 
 implementation
 
-uses
-  FireDAC.Comp.Client;
-
 {$R *.dfm}
 
 procedure TVendaFinalizar.acCancelarExecute(Sender: TObject);
 begin
   inherited;
-  if DAO.DoCancelar(TFDMemTable(dsbase.DataSet)) then
+  if DAO.DoCancelar(dsbase.DataSet) then
   begin
     ShowMessage('Venda abortada com sucesso!');
     Close;
@@ -54,7 +54,7 @@ end;
 procedure TVendaFinalizar.acConcluirExecute(Sender: TObject);
 begin
   inherited;
-  if DAO.DoSalvar(TFDMemTable(dsbase.DataSet)) then
+  if DAO.DoSalvar(dsbase.DataSet) then
   begin
     ShowMessage('Venda concluída com sucesso!');
     Close;
@@ -64,8 +64,11 @@ end;
 procedure TVendaFinalizar.DoShow;
 begin
   inherited;
-  if DBEdit1.CanFocus then
-    DBEdit1.SetFocus;
+  lblProd.Caption := 'Combustível: ' + dsBombas.DataSet.FieldByName('DS_PRODUTO').AsString;
+  lblBomba.Caption := 'Bomba: ' + dsBombas.DataSet.FieldByName('NRO_BOMBA').AsString;
+
+  if edtQtde.CanFocus then
+    edtQtde.SetFocus;
 end;
 
 end.

@@ -10,14 +10,14 @@ uses
 
 type
   TTanqueEdit = class(TPostoClientEdit)
-    Label1: TLabel;
-    DBEdit1: TDBEdit;
-    DBLookupComboBox1: TDBLookupComboBox;
-    DBEdit2: TDBEdit;
-    Label2: TLabel;
-    Label3: TLabel;
-    DBEdit3: TDBEdit;
-    Label4: TLabel;
+    lblID: TLabel;
+    edtID: TDBEdit;
+    edtckbProd: TDBLookupComboBox;
+    edtCapacidade: TDBEdit;
+    lblProd: TLabel;
+    lblCapacidade: TLabel;
+    edtNumero: TDBEdit;
+    lblNumero: TLabel;
     dsProdCons: TDataSource;
   private
   protected

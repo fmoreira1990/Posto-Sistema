@@ -1,26 +1,25 @@
 inherited Venda: TVenda
-  Caption = 'Venda'
-  ClientHeight = 422
-  ClientWidth = 970
-  ExplicitWidth = 986
-  ExplicitHeight = 461
+  Caption = 'Ponto de Venda - Posto Fortes'
+  ClientHeight = 600
+  ClientWidth = 800
+  ExplicitWidth = 816
+  ExplicitHeight = 639
   PixelsPerInch = 96
   TextHeight = 13
-  object pnl: TPanel
+  object pnlCenter: TPanel
     Left = 0
     Top = 41
-    Width = 970
-    Height = 381
+    Width = 800
+    Height = 559
     Align = alClient
-    Caption = 'pnl'
-    TabOrder = 0
-    ExplicitTop = 0
-    ExplicitHeight = 201
+    TabOrder = 1
+    ExplicitWidth = 970
+    ExplicitHeight = 381
     object ListBombas: TListView
       Left = 1
       Top = 1
-      Width = 968
-      Height = 379
+      Width = 798
+      Height = 557
       Align = alClient
       Columns = <
         item
@@ -52,23 +51,22 @@ inherited Venda: TVenda
       SmallImages = ImageList
       TabOrder = 0
       ViewStyle = vsReport
-      ExplicitLeft = 2
-      ExplicitTop = 113
-      ExplicitHeight = 199
+      OnDblClick = ListBombasDblClick
+      OnKeyDown = ListBombasKeyDown
+      ExplicitWidth = 968
+      ExplicitHeight = 379
     end
   end
-  object Panel1: TPanel
+  object pnlTop: TPanel
     Left = 0
     Top = 0
-    Width = 970
+    Width = 800
     Height = 41
     Align = alTop
-    Caption = 'Panel1'
-    TabOrder = 1
-    ExplicitLeft = 312
-    ExplicitTop = 64
-    ExplicitWidth = 185
-    object Button1: TButton
+    BevelOuter = bvNone
+    TabOrder = 0
+    ExplicitWidth = 970
+    object btnVender: TButton
       Left = 16
       Top = 9
       Width = 75
@@ -76,7 +74,7 @@ inherited Venda: TVenda
       Action = acVender
       TabOrder = 0
     end
-    object Button2: TButton
+    object btnFechar: TButton
       Left = 97
       Top = 9
       Width = 75

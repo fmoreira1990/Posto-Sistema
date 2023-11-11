@@ -22,6 +22,9 @@ begin
   if WebRequestHandler <> nil then
     WebRequestHandler.WebModuleClass := WebModuleClass;
   Application.Initialize;
+  Application.MainFormOnTaskbar := False;
+  Application.Title := 'Posto Fortes - Servidor de Aplicação';
   Application.CreateForm(TPostoServerMain, PostoServerMain);
   Application.Run;
 end.
+
