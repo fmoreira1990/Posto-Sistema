@@ -5,7 +5,7 @@ object DsmBase: TDsmBase
   object Connection: TFDConnection
     Params.Strings = (
       'DriverID=FB'
-      'Database=C:\Posto-Sistema\POSTO.FDB'
+      'Database=D:\Posto-Sistema\POSTO.FDB'
       'Password=masterkey'
       'Server=localhost'
       'User_Name=SYSDBA')
