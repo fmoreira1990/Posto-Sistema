@@ -9,3 +9,4 @@ Source/Server/__history
 Source/Server/Controller/__history
 *.local
 *.dres
+*.identcache
