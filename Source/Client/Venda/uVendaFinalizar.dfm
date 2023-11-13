@@ -79,7 +79,6 @@ inherited VendaFinalizar: TVendaFinalizar
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitWidth = 635
     object btnConcluir: TButton
       Left = 16
       Top = 9
@@ -160,12 +159,10 @@ inherited VendaFinalizar: TVendaFinalizar
     end
   end
   object dsBase: TDataSource
-    DataSet = VendaDAO.memBase
     Left = 416
     Top = 136
   end
   object dsBombas: TDataSource
-    DataSet = VendaDAO.memBombaCons
     Left = 416
     Top = 208
   end

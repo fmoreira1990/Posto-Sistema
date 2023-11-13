@@ -15,7 +15,6 @@ inherited PostoClientCad: TPostoClientCad
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitWidth = 812
     object btnConsultar: TButton
       Left = 10
       Top = 10
@@ -102,12 +101,10 @@ inherited PostoClientCad: TPostoClientCad
     end
   end
   object dsLista: TDataSource
-    DataSet = PostoClientDAO.memLista
     Left = 432
     Top = 200
   end
   object dsBase: TDataSource
-    DataSet = PostoClientDAO.memBase
     Left = 432
     Top = 272
   end

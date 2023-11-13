@@ -48,6 +48,7 @@ inherited ProdutoEdit: TProdutoEdit
   end
   inherited pnlTop: TPanel
     Width = 600
+    ExplicitWidth = 600
   end
   object EdtPerImposto: TDBEdit [7]
     Left = 152

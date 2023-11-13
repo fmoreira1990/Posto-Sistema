@@ -14,27 +14,22 @@ type
     FRefCount: integer;
   public
     { Public declarations }
-    //constructor Create; overload;
+    constructor Create;
+    class function New: IView; virtual;
+
     function QueryInterface(const IID: TGUID; out Obj): HResult; override; stdcall;
     function _AddRef: Integer; stdcall;
     function _Release: Integer; stdcall;
-
-    //constructor Create(AOwner: TComponent); override;
-    constructor Create;
-
-    procedure BeforeDestruction; override;
-
-    procedure SetAlign(const Value: TAlign); reintroduce; virtual;
-    procedure SetOnCloseQuery(const Value: TCloseQueryEvent); virtual;
-    procedure SetDAO(const Value: IPostoClientDAO); virtual;
-
-    procedure Close; virtual;
-
     function GetOnCloseQuery: TCloseQueryEvent; virtual;
     function GetShowing: Boolean; virtual;
     function GetDAO: IPostoClientDAO; virtual;
-
     function ShowModal: Integer; reintroduce; virtual;
+
+    procedure Inicializar; virtual;
+    procedure SetAlign(const Value: TAlign); reintroduce; virtual;
+    procedure SetOnCloseQuery(const Value: TCloseQueryEvent); virtual;
+    procedure SetDAO(const Value: IPostoClientDAO); virtual;
+    procedure Close; virtual;
 
     property DAO: IPostoClientDAO read GetDAO write SetDAO;
   end;
@@ -45,21 +40,10 @@ implementation
 
 { TPostoBase }
 
-procedure TPostoBase.BeforeDestruction;
-begin
-  inherited;
-
-end;
-
 procedure TPostoBase.Close;
 begin
   inherited Close;
 end;
-
-//constructor TPostoBase.Create(AOwner: TComponent);
-//begin
-//  inherited Create(AOwner);
-//end;
 
 constructor TPostoBase.Create;
 begin
@@ -81,6 +65,16 @@ begin
   Result := Showing;
 end;
 
+procedure TPostoBase.Inicializar;
+begin
+  //
+end;
+
+class function TPostoBase.New: IView;
+begin
+  Result := Self.Create;
+end;
+
 function TPostoBase.QueryInterface(const IID: TGUID; out Obj): HResult;
 begin
   if GetInterface(IID, Obj) then
@@ -97,6 +91,7 @@ end;
 procedure TPostoBase.SetDAO(const Value: IPostoClientDAO);
 begin
   FDAO := Value;
+  Inicializar;
 end;
 
 procedure TPostoBase.SetOnCloseQuery(const Value: TCloseQueryEvent);

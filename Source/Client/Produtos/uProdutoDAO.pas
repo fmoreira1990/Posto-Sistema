@@ -14,9 +14,12 @@ uses
 type
   TProdutoDAO = class(TPostoClientDAO)
   private
+  protected
     { Private declarations }
+
   public
     { Public declarations }
+    class function New: IPostoClientDAO; override;
   end;
 
 implementation
@@ -24,5 +27,12 @@ implementation
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 {$R *.dfm}
+
+{ TProdutoDAO }
+
+class function TProdutoDAO.New: IPostoClientDAO;
+begin
+  Result := Self.Create;
+end;
 
 end.

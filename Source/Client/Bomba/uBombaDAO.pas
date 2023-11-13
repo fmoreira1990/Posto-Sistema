@@ -30,8 +30,8 @@ type
     { Private declarations }
   public
     procedure AfterConstruction; override;
+    class function New: IPostoClientDAO; override;
     { Public declarations }
-
 
   end;
 implementation
@@ -46,6 +46,11 @@ procedure TBombaDAO.AfterConstruction;
 begin
   inherited;
   DoConsultar(memTanqueCons, FDStoredProcTaqueCons);
+end;
+
+class function TBombaDAO.New: IPostoClientDAO;
+begin
+  Result := Self.Create;
 end;
 
 end.

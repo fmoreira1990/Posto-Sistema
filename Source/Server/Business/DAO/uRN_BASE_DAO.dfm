@@ -1,7 +1,7 @@
-object DsmBase: TDsmBase
+object RN_BASE_DAO: TRN_BASE_DAO
   OldCreateOrder = False
-  Height = 481
-  Width = 784
+  Height = 401
+  Width = 787
   object QueryBase: TFDQuery
     CachedUpdates = True
     Connection = FDConnection1
@@ -10,6 +10,7 @@ object DsmBase: TDsmBase
     Top = 176
   end
   object FDSchemaAdapter: TFDSchemaAdapter
+    OnReconcileRow = FDSchemaAdapterReconcileRow
     Left = 359
     Top = 105
   end
@@ -25,17 +26,8 @@ object DsmBase: TDsmBase
       'User_Name=SYSDBA'
       'Password=masterkey'
       'Database=D:\Posto-Sistema\POSTO.FDB')
-    Connected = True
     LoginPrompt = False
     Left = 264
     Top = 104
-  end
-  object FDStanStorageJSONLink2: TFDStanStorageJSONLink
-    Left = 504
-    Top = 312
-  end
-  object FDStanStorageBinLink2: TFDStanStorageBinLink
-    Left = 656
-    Top = 304
   end
 end

@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uPostoClientEdit, Data.DB,
   System.Actions, Vcl.ActnList, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.DBCtrls,
-  Vcl.Mask, uTanqueDAO;
+  Vcl.Mask, uBaseIntf;
 
 type
   TTanqueEdit = class(TPostoClientEdit)
@@ -20,10 +20,10 @@ type
     lblNumero: TLabel;
     dsProdCons: TDataSource;
   private
-  protected
-    procedure DoShow; override;
     { Private declarations }
+  protected
   public
+    class function New: IView; override;
     { Public declarations }
 
   end;
@@ -34,10 +34,9 @@ implementation
 
 { TTanqueEdit }
 
-procedure TTanqueEdit.DoShow;
+class function TTanqueEdit.New: IView;
 begin
-  inherited;
-
+  Result := Self.Create;
 end;
 
 end.

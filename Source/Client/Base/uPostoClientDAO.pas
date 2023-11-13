@@ -31,6 +31,7 @@ type
     FRefCount: integer;
     function DoConnectionError(pError: string): Boolean;
     procedure DoException(Sender: TObject; E: Exception);
+    function GetDataSet(const Value: string): TDataSet;
   protected
     function DoConsultar: Boolean; overload; virtual;
     function DoConsultar(const pDataSet: TDataSet; pStoredProcConsulta: TObject): Boolean; overload; virtual;
@@ -53,17 +54,19 @@ type
     function QueryInterface(const IID: TGUID; out Obj): HResult; override; stdcall;
     function _AddRef: Integer; stdcall;
     function _Release: Integer; stdcall;
+    class function New: IPostoClientDAO; virtual;
 
     procedure BeforeDestruction; override;
     procedure AfterConstruction; override;
     constructor Create; overload;
 
+    property DataSet[const Value: string]: TDataSet read GetDataSet;
   end;
 
 implementation
 
 uses
-  System.Variants, Vcl.Dialogs, RegExpr, Winapi.Windows;
+  System.Variants, Vcl.Dialogs, RegExpr, Winapi.Windows, TypInfo;
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
@@ -382,6 +385,31 @@ begin
     on E: Exception do
       raise Exception.Create(E.Message);
   end;
+end;
+
+function TPostoClientDAO.GetDataSet(const Value: string): TDataSet;
+var
+  vObj: TObject;
+begin
+  Result := nil;
+  try
+    vObj := FindComponent(Value);
+    if not Assigned(vObj) then
+    begin
+      if TypInfo.IsPublishedProp(Self, Value) then
+        vObj := GetObjectProp(Self, Value);
+    end;
+    if Assigned(vObj) and (vObj is TDataSet) then
+      Result := TDataSet(vObj);
+  finally
+    if not Assigned(Result) then
+      raise exception.Create('Nao foi localizado o DataSet: ' + Value);
+  end;
+end;
+
+class function TPostoClientDAO.New: IPostoClientDAO;
+begin
+  Result := TPostoClientDAO.Create;
 end;
 
 function TPostoClientDAO.QueryInterface(const IID: TGUID; out Obj): HResult;

@@ -34,7 +34,6 @@ inherited TanqueEdit: TTanqueEdit
   end
   inherited pnlTop: TPanel
     Width = 600
-    ExplicitWidth = 700
   end
   object edtID: TDBEdit [5]
     Left = 152

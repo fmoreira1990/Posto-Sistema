@@ -138,6 +138,38 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <FormType>dfm</FormType>
             <DesignClass>TDSServerModule</DesignClass>
         </DCCReference>
+        <DCCReference Include="uPostoServerInterface.pas"/>
+        <DCCReference Include="Dynamic\uDynamicFactory.pas"/>
+        <DCCReference Include="Dynamic\uDynamicConnectionFireDAC.pas"/>
+        <DCCReference Include="Business\RN_TB_BOMBA.pas"/>
+        <DCCReference Include="Business\RN_BASE.pas"/>
+        <DCCReference Include="Business\DAO\uRN_BASE_DAO.pas">
+            <Form>RN_BASE_DAO</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Business\DAO\uRN_TB_BOMBA_DAO.pas">
+            <Form>RN_TB_BOMBA_DAO</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Business\RN_TB_TANQUE.pas"/>
+        <DCCReference Include="Business\DAO\uRN_TB_TANQUE_DAO.pas">
+            <Form>RN_TB_TANQUE_DAO</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Business\RN_TB_PRODUTO.pas"/>
+        <DCCReference Include="Business\DAO\uRN_TB_PRODUTO_DAO.pas">
+            <Form>RN_TB_PRODUTO_DAO</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Business\DAO\uRN_TB_VENDA_DAO.pas">
+            <Form>RN_TB_VENDA_DAO</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
         <None Include="js\base64.js"/>
         <None Include="js\serverfunctionexecutor.js"/>
         <None Include="js\json2.js"/>

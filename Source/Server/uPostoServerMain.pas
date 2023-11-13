@@ -59,7 +59,7 @@ implementation
 {$R *.dfm}
 
 uses
-  WinApi.Windows, Winapi.ShellApi, Datasnap.DSSession;
+  WinApi.Windows, Winapi.ShellApi, Datasnap.DSSession, Data.DB;
 
 procedure TerminateThreads;
 begin
@@ -164,6 +164,22 @@ begin
   Self.Show;
   Self.WindowState := wsNormal;
 end;
+
+initialization
+ { RegisterClass(TIntegerField);
+  RegisterClass(TWideStringField);
+  RegisterClass(TStringField);
+  RegisterClass(TIntegerField);
+  RegisterClass(TFMTBCDField);
+  RegisterClass(TBCDField);
+  RegisterClass(TFloatField);
+  RegisterClass(TWideMemoField);
+  RegisterClass(TDateTimeField);
+  RegisterClass(TTimeField);
+  RegisterClass(TDateField);
+  RegisterClass(TSQLTimeStampField);
+  RegisterClass(TBlobField);
+  RegisterClass(TBooleanField);  }
 
 end.
 

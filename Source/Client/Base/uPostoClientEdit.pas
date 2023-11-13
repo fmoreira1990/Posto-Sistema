@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, System.Actions, Vcl.ActnList,
-  Vcl.StdCtrls, Vcl.ExtCtrls, uPostoClientDAO, Vcl.Mask, Vcl.DBCtrls,
+  Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls,
   Data.DB, uPostoBase, uBaseIntf;
 
 type
@@ -23,31 +23,50 @@ type
   private
     { Private declarations }
   public
+    class function New: IView; override;
+    procedure Inicializar; override;
+    procedure AfterConstruction; override;
+
     { Public declarations }
+
   end;
 
 implementation
-
-uses
-  FireDAC.Comp.Client;
 
 {$R *.dfm}
 
 procedure TPostoClientEdit.acCancelarExecute(Sender: TObject);
 begin
-  if DAO.DoCancelar(TFDMemTable(dsbase.DataSet)) then
+  if DAO.DoCancelar(dsbase.DataSet) then
     Close
 end;
 
 procedure TPostoClientEdit.acSalvarExecute(Sender: TObject);
 begin
-  if DAO.DoSalvar(TFDMemTable(dsbase.DataSet)) then
+  if DAO.DoSalvar(dsbase.DataSet) then
     Close;
 end;
 
 procedure TPostoClientEdit.acSalvarUpdate(Sender: TObject);
 begin
   TAction(Sender).Enabled := DAO.CanPost;
+end;
+
+procedure TPostoClientEdit.AfterConstruction;
+begin
+  inherited;
+  //
+end;
+
+procedure TPostoClientEdit.Inicializar;
+begin
+  inherited;
+  dsBase.DataSet := DAO.DataSet['memBase'];
+end;
+
+class function TPostoClientEdit.New: IView;
+begin
+  Result := Self.Create;
 end;
 
 end.

@@ -9,7 +9,7 @@ uses
   FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys,
   FireDAC.Phys.DS, FireDAC.Phys.DSDef, FireDAC.VCLUI.Wait, FireDAC.Comp.Client,
   FireDAC.Stan.StorageJSON, FireDAC.Stan.StorageBin, FireDAC.Phys.TDBXBase,
-  Data.DB, FireDAC.Comp.DataSet;
+  Data.DB, FireDAC.Comp.DataSet, uBaseIntf;
 
 type
   TTanqueDAO = class(TPostoClientDAO)
@@ -21,9 +21,11 @@ type
     memProdCons: TFDMemTable;
     FDStoredProcProdCons: TFDStoredProc;
   private
+  protected
     { Private declarations }
   public
     procedure AfterConstruction; override;
+    class function New: IPostoClientDAO; override;
     { Public declarations }
 
   end;
@@ -40,6 +42,11 @@ procedure TTanqueDAO.AfterConstruction;
 begin
   inherited;
   DoConsultar(memProdCons, FDStoredProcProdCons);
+end;
+
+class function TTanqueDAO.New: IPostoClientDAO;
+begin
+  Result := Self.Create;
 end;
 
 end.

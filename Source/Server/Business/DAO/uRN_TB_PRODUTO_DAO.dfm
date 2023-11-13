@@ -1,11 +1,10 @@
-inherited DsmProduto: TDsmProduto
+inherited RN_TB_PRODUTO_DAO: TRN_TB_PRODUTO_DAO
   OldCreateOrder = True
-  Height = 373
-  Width = 718
+  Height = 318
+  Width = 552
   inherited QueryBase: TFDQuery
-    IndexFieldNames = 'ID_PRODUTO'
     MasterFields = 'ID_PRODUTO'
-    UpdateOptions.AssignedValues = [uvFetchGeneratorsPoint, uvGeneratorName]
+    UpdateOptions.AssignedValues = [uvGeneratorName]
     UpdateOptions.GeneratorName = 'G_ID_PRODUTO'
     UpdateOptions.UpdateTableName = 'TB_PRODUTO'
     UpdateOptions.KeyFields = 'ID_PRODUTO'
@@ -63,9 +62,15 @@ inherited DsmProduto: TDsmProduto
   end
   inherited QueryLista: TFDQuery
     MasterFields = 'ID_PRODUTO'
+    UpdateOptions.AssignedValues = [uvGeneratorName]
+    UpdateOptions.GeneratorName = 'G_ID_PRODUTO'
+    UpdateOptions.UpdateTableName = 'TB_PRODUTO'
+    UpdateOptions.KeyFields = 'ID_PRODUTO'
+    UpdateOptions.AutoIncFields = 'ID_PRODUTO'
     SQL.Strings = (
       'select * from tb_produto')
     object QueryListaID_PRODUTO: TIntegerField
+      AutoGenerateValue = arAutoInc
       FieldName = 'ID_PRODUTO'
       Origin = 'ID_PRODUTO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -105,11 +110,5 @@ inherited DsmProduto: TDsmProduto
       Required = True
       Size = 50
     end
-  end
-  inherited FDStanStorageJSONLink2: TFDStanStorageJSONLink
-    Top = 200
-  end
-  inherited FDStanStorageBinLink2: TFDStanStorageBinLink
-    Top = 104
   end
 end

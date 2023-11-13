@@ -30,7 +30,6 @@ object PostoClientMain: TPostoClientMain
     Font.Style = []
     ParentFont = False
     TabOrder = 0
-    ExplicitWidth = 984
   end
   object pnlCenter: TPanel
     Left = 0
@@ -48,8 +47,6 @@ object PostoClientMain: TPostoClientMain
     ParentFont = False
     ShowCaption = False
     TabOrder = 1
-    ExplicitWidth = 984
-    ExplicitHeight = 520
   end
   object MainMenu: TMainMenu
     Left = 320

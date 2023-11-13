@@ -5,8 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids, Vcl.DBGrids,
-  Vcl.ExtCtrls, uPostoClientDAO, System.Actions, Vcl.ActnList, Vcl.StdCtrls,
-  uPostoClientEdit, uPostoBase, uBaseIntf;
+  Vcl.ExtCtrls, System.Actions, Vcl.ActnList, Vcl.StdCtrls,
+  uPostoBase, uBaseIntf;
 
 type
   TPostoClientCad = class(TPostoBase)
@@ -33,14 +33,16 @@ type
     procedure GridDblClick(Sender: TObject);
     procedure GridKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
+    FPostoClientEdit: IView;
   protected
     procedure DoShow; override;
     { Private declarations }
   public
-    FPostoClientEdit: IView;
     procedure AfterConstruction; override;
+    class function New: IView; override;
+    procedure Inicializar; override;
     { Public declarations }
-
+    property PostoClientEdit: IView read FPostoClientEdit write FPostoClientEdit;
   end;
 
 implementation
@@ -80,17 +82,16 @@ end;
 procedure TPostoClientCad.AfterConstruction;
 begin
   inherited;
-
+  if Assigned(FPostoClientEdit) and Assigned(DAO) then
+  begin
+    FPostoClientEdit.Dao := DAO;
+    FPostoClientEdit.Inicializar;
+  end;
 end;
 
 procedure TPostoClientCad.DoShow;
 begin
   inherited;
-  if Assigned(FPostoClientEdit) and Assigned(DAO) then
-  begin
-    FPostoClientEdit.Dao := DAO;
-    //FPostoClientEdit.SetAlign(alClient);
-  end;
   acConsultar.Execute;
 end;
 
@@ -103,6 +104,18 @@ procedure TPostoClientCad.GridKeyDown(Sender: TObject; var Key: Word; Shift: TSh
 begin
   if Key = VK_RETURN then
     acEditar.Execute;
+end;
+
+procedure TPostoClientCad.Inicializar;
+begin
+  inherited;
+  dsBase.DataSet := DAO.DataSet['memBase'];
+  dsLista.DataSet := DAO.DataSet['memLista'];
+end;
+
+class function TPostoClientCad.New: IView;
+begin
+  Result := Self.Create;
 end;
 
 end.

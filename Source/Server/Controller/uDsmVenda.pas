@@ -5,12 +5,12 @@ interface
 uses
   System.SysUtils, System.Classes, Datasnap.DSServer,
   Datasnap.DSAuth, Datasnap.DSProviderDataModuleAdapter, uDsmBase,
-  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf,
-  FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.Client,
+  FireDAC.Comp.DataSet, FireDAC.UI.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool,
   FireDAC.Phys, FireDAC.Phys.FB, FireDAC.Phys.FBDef, FireDAC.VCLUI.Wait,
-  FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt,
-  FireDAC.Stan.StorageBin, FireDAC.Stan.StorageJSON, FireDAC.Comp.Client,
-  Data.DB, FireDAC.Comp.DataSet, FireDAC.Phys.IBBase;
+  FireDAC.Stan.StorageBin, FireDAC.Stan.StorageJSON;
 
 type
   TDsmVenda = class(TDsmBase)
@@ -30,65 +30,53 @@ type
     QueryBaseDS_PRODUTO: TStringField;
     QueryBaseNRO_BOMBA: TIntegerField;
     QueryBaseNRO_TANQUE: TIntegerField;
-    FDVendas: TFDQuery;
   private
     { Private declarations }
+  protected
+    procedure AfterConstruction; override;
   public
     { Public declarations }
+
     function ListVenda: TStream;
     function updateVendas(const AStream: TStream): Boolean;
-    function Venda(const pIdTanque: integer): TStream;
+    function Venda(const pIdVenda: integer): TStream;
     function RelatorioVendas: TStream;
   end;
 
 implementation
 
+uses
+  RN_TB_VENDA,
+  uPostoServerInterface;
+
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 {$R *.dfm}
 
-function TDsmVenda.Venda(const pIdTanque: integer): TStream;
+function TDsmVenda.Venda(const pIdVenda: integer): TStream;
 begin
-  Result := nil;
-  try
-    Result := Unique(pIdTanque, QueryBase);
-  except on
-    E: Exception do
-      raise;
-  end;
+  Result := (Business as IBusinessTbVenda).Venda(pIdVenda);
+end;
+
+procedure TDsmVenda.AfterConstruction;
+begin
+  inherited;
+  Business := TRN_TB_VENDA.New;
 end;
 
 function TDsmVenda.ListVenda: TStream;
 begin
-  Result := nil;
-  try
-    Result := List(QueryLista);
-  except on
-    E: Exception do
-      raise;
-  end;
+  Result := (Business as IBusinessTbVenda).ListVenda;
 end;
 
 function TDsmVenda.RelatorioVendas: TStream;
 begin
-  Result := nil;
-  try
-    Result := List(FDVendas);
-  except on
-    E: Exception do
-      raise;
-  end;
+  Result := (Business as IBusinessTbVenda).RelatorioVendas;
 end;
 
 function TDsmVenda.updateVendas(const AStream: TStream): Boolean;
 begin
-  Result := False;
-  try
-    Result := Update(AStream, FDSchemaAdapter);
-  except on
-    E: Exception do
-      raise;
-  end;
+  Result := (Business as IBusinessTbVenda).updateVendas(AStream);
 end;
 
 end.

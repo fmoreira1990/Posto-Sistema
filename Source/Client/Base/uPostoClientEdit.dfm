@@ -15,7 +15,6 @@ inherited PostoClientEdit: TPostoClientEdit
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitWidth = 635
     object btnSalvar: TButton
       Left = 21
       Top = 9
@@ -48,7 +47,6 @@ inherited PostoClientEdit: TPostoClientEdit
     end
   end
   object dsBase: TDataSource
-    DataSet = PostoClientDAO.memBase
     Left = 464
     Top = 200
   end

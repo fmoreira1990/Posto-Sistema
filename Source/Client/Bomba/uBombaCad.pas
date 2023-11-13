@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uPostoClientCad, Data.DB,
   System.Actions, Vcl.ActnList, Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls,
-  Vcl.ExtCtrls;
+  Vcl.ExtCtrls, uBaseIntf;
 
 type
   TBombaCad = class(TPostoClientCad)
@@ -14,6 +14,8 @@ type
     { Private declarations }
   public
     procedure AfterConstruction; override;
+    class function New: IView; override;
+
     { Public declarations }
 
   end;
@@ -21,7 +23,8 @@ type
 implementation
 
 uses
-  uBombaEdit;
+  uBombaEdit,
+  uBombaDAO;
 
 {$R *.dfm}
 
@@ -29,16 +32,18 @@ uses
 
 procedure TBombaCad.AfterConstruction;
 begin
-  inherited;
-
-  if not Assigned(FPostoClientEdit) then
-  begin
-    FPostoClientEdit := TBombaEdit.Create();
-  end;
+  DAO := TBombaDAO.New;
+  PostoClientEdit := TBombaEdit.New;
 
   inherited;
 end;
 
+class function TBombaCad.New: IView;
+begin
+  Result := Self.Create;
+end;
+
 end.
+
 
 

@@ -7,9 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, System.Actions, Vcl.ActnList, Vcl.Menus,
   Vcl.ExtCtrls,
   Vcl.ComCtrls,
-  uBaseIntf,
-  uPostoBase,
-  uPostoClientDAO;
+  uBaseIntf;
 
 type
   TPostoClientMain = class(TForm)
@@ -38,10 +36,9 @@ type
     procedure acRelatoriosExecute(Sender: TObject);
   private
     { Private declarations }
-    procedure DoAbrirTela(pView: IView; pDAO: IPostoClientDAO);
+    procedure DoAbrirTela(pView: IView);
   public
     { Public declarations }
-
   end;
 
 var
@@ -51,13 +48,9 @@ implementation
 
 uses
   uProdutoCad,
-  uProdutoDAO,
   uBombaCad,
-  uBombaDAO,
   uTanqueCad,
-  uTanqueDAO,
   uVenda,
-  uVendaDAO,
   uVendaRelatorio;
 
 {$R *.dfm}
@@ -65,31 +58,26 @@ uses
 procedure TPostoClientMain.acBombaExecute(Sender: TObject);
 var
   vView: IView;
-  vDao: IPostoClientDAO;
 begin
-  vView := TBombaCad.Create;
-  vDao := TBombaDAO.Create;
+  vView := TBombaCad.New;
 
-  DoAbrirTela(vView, vDao);
+  DoAbrirTela(vView);
 end;
 
 procedure TPostoClientMain.acProdutosExecute(Sender: TObject);
 var
   vView: IView;
-  vDao: IPostoClientDAO;
 begin
-  vView := TProdutoCad.Create;
-  vDao := TProdutoDAO.Create;
+  vView := TProdutoCad.New;
 
-  DoAbrirTela(vView, vDao);
+  DoAbrirTela(vView);
 end;
 
 procedure TPostoClientMain.acRelatoriosExecute(Sender: TObject);
 var
   vView: IView;
 begin
-  vView := TVendaRelatorio.Create;
-  vView.DAO := TVendaDAO.Create;
+  vView := TVendaRelatorio.New;
   (vView as TVendaRelatorio).DoExecuteReport;
 end;
 
@@ -101,28 +89,23 @@ end;
 procedure TPostoClientMain.acTanqueExecute(Sender: TObject);
 var
   vView: IView;
-  vDao: IPostoClientDAO;
 begin
-  vView := TTanqueCad.Create;
-  vDao := TTanqueDAO.Create;
+  vView := TTanqueCad.New;
 
-  DoAbrirTela(vView, vDao);
+  DoAbrirTela(vView);
 end;
 
 procedure TPostoClientMain.acVendasExecute(Sender: TObject);
 var
   vView: IView;
-  vDao: IPostoClientDAO;
 begin
-  vView := TVenda.Create;
-  vDao := TVendaDAO.Create;
+  vView := TVenda.New;
 
-  DoAbrirTela(vView, vDao);
+  DoAbrirTela(vView);
 end;
 
-procedure TPostoClientMain.DoAbrirTela(pView: IView; pDAO: IPostoClientDAO);
+procedure TPostoClientMain.DoAbrirTela(pView: IView);
 begin
-  pView.DAO := pDAO;
   pView.SetOnCloseQuery(FormCloseQuery);
 
   if not pView.GetShowing then

@@ -4,7 +4,8 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uPostoBase, uVendaDAO, Data.DB, RLReport;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uPostoBase, Data.DB, RLReport,
+  uBaseIntf;
 
 type
   TVendaRelatorio = class(TPostoBase)
@@ -45,26 +46,28 @@ type
     RLDBResult3: TRLDBResult;
     RLLabel9: TRLLabel;
   private
-  protected
-    procedure DoShow; override;
     { Private declarations }
   public
     { Public declarations }
     procedure DoExecuteReport;
-    procedure BeforeDestruction; override;
+    class function New: IView; override;
+    procedure AfterConstruction; override;
 
   end;
 
 implementation
 
+uses
+  uVendaDAO;
+
 {$R *.dfm}
 
 { TVendaRelatorio }
 
-procedure TVendaRelatorio.BeforeDestruction;
+procedure TVendaRelatorio.AfterConstruction;
 begin
+  DAO := TVendaDAO.New;
   inherited;
-
 end;
 
 procedure TVendaRelatorio.DoExecuteReport;
@@ -73,12 +76,12 @@ begin
   Report_Venda_Detalhe_Ord_Data_Hora.PreviewModal();
 end;
 
-procedure TVendaRelatorio.DoShow;
+class function TVendaRelatorio.New: IView;
 begin
-  inherited;
-
+  Result := Self.Create;
 end;
 
 end.
+
 
 

@@ -9,6 +9,8 @@ type
 
   IPostoClientDAO = interface
     ['{1746E4AC-1FD2-4BE0-BB53-16573EFDD34B}']
+    function GetDataSet(const Value: string): TDataSet;
+
     function CanPost: Boolean;
     function DoConsultar(const pDataSet: TDataSet; pStoredProcConsulta: TObject): Boolean; overload;
     function DoConsultar: Boolean; overload;
@@ -24,6 +26,8 @@ type
     procedure DoBeforePost(pDataSet: TDataSet);
     procedure DoAfterOpen(pDataSet: TDataSet);
     procedure DoChange(Sender: TField);
+
+    property DataSet[const Value: string]: TDataSet read GetDataSet;
   end;
 
   IView = interface
@@ -32,6 +36,7 @@ type
     procedure SetOnCloseQuery(const Value: TCloseQueryEvent);
     procedure SetDAO(const Value: IPostoClientDAO);
     procedure Close;
+    procedure Inicializar;
 
     function GetOnCloseQuery: TCloseQueryEvent;
     function GetShowing: Boolean;

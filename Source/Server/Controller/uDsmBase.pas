@@ -10,140 +10,68 @@ uses System.SysUtils, System.Classes, System.Json,
   FireDAC.Phys.FBDef, FireDAC.VCLUI.Wait, Data.DB, FireDAC.Comp.Client,
   FireDAC.Phys.IBBase, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
   FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Stan.StorageBin,
-  FireDAC.Stan.StorageJSON;
+  FireDAC.Stan.StorageJSON, uPostoServerInterface;
 
 type
   TDsmBase = class(TDSServerModule)
-    Connection: TFDConnection;
-    FDPhysFBDriverLink: TFDPhysFBDriverLink;
     QueryBase: TFDQuery;
     FDSchemaAdapter: TFDSchemaAdapter;
-    FDStanStorageJSONLink1: TFDStanStorageJSONLink;
-    FDStanStorageBinLink1: TFDStanStorageBinLink;
     QueryLista: TFDQuery;
-    procedure FDSchemaAdapterReconcileRow(ASender: TObject; ARow: TFDDatSRow;
-      var Action: TFDDAptReconcileAction);
+    FDConnection1: TFDConnection;
+    FDStanStorageJSONLink2: TFDStanStorageJSONLink;
+    FDStanStorageBinLink2: TFDStanStorageBinLink;
   private
     { Private declarations }
+    FBusiness: IBusiness;
+    function GetBusiness: IBusiness;
+
+    procedure SetBusiness(const Value: IBusiness);
+
   protected
+    procedure AfterConstruction; override;
     function List(const pQuery: TFDQuery): TStream; virtual;
     function Unique(const pID: integer; const pQuery: TFDQuery): TStream; virtual;
     function Update(const AStream: TStream; const pSchemaAdapter: TFDSchemaAdapter): Boolean; virtual;
   public
-    { Public declarations }
-    function EchoString(Value: string): string;
-    function ReverseString(Value: string): string;
+    property Business: IBusiness read GetBusiness write SetBusiness;
+
   end;
 
 implementation
 
 {$R *.dfm}
 
-uses System.StrUtils;
+uses System.StrUtils, uDynamicFactory;
 
-function CopyStream(const AStream: TStream): TMemoryStream;
-var
-  LBuffer: TBytes;
-  LCount: Integer;
-begin
-  Result := TMemoryStream.Create;
-  try
-    SetLength(LBuffer, 1024 * 32);
-    while True do
-    begin
-      LCount := AStream.Read(LBuffer, Length(LBuffer));
-      Result.Write(LBuffer, LCount);
-      if LCount < Length(LBuffer) then
-        break;
-    end;
-  except on
-    E: Exception do
-    begin
-      Result.Free;
-      raise;
-    end;
-  end;
-end;
-
-function TDsmBase.EchoString(Value: string): string;
-begin
-  Result := Value;
-end;
-
-procedure TDsmBase.FDSchemaAdapterReconcileRow(ASender: TObject; ARow: TFDDatSRow; var Action: TFDDAptReconcileAction);
-var
-  oErr: EFDException;
-  oExc: EFDDBEngineException;
+procedure TDsmBase.AfterConstruction;
 begin
   inherited;
-  oErr := ARow.RowError;
-  if oErr <> nil then
-  begin
-    if oErr is EFDDBEngineException then
-    begin
-      oExc := EFDDBEngineException(oErr);
-      // [FireDAC][Phys][PG]-312. Exact update affected [0] rows, while [1] was requested // tentando deletar no banco de dados registro que foi inserido no fdquery e depois deletado, na verdade, nunca existiu no bd e da essa exception.
-      if not (oExc.ErrorCode = 312) then
-        raise Exception.Create(oExc.Message + char(13) + char(13) + 'SQL: ' + oExc.SQL + char(13) + 'Parametros: ' + oExc.Params.Text);
-    end;
-  end;
+
+end;
+
+function TDsmBase.GetBusiness: IBusiness;
+begin
+  Result := FBusiness;
 end;
 
 function TDsmBase.List(const pQuery: TFDQuery): TStream;
 begin
-  try
-    pQuery.Close;
-    pQuery.Open;
-    Result := TMemoryStream.Create;
-    pQuery.SaveToStream(Result, TFDStorageFormat.sfJSON);
-    Result.Position := 0;
-  except on
-    E: Exception do
-      raise;
-  end;
+  // classes filhas
 end;
 
-function TDsmBase.ReverseString(Value: string): string;
+procedure TDsmBase.SetBusiness(const Value: IBusiness);
 begin
-  Result := System.StrUtils.ReverseString(Value);
+  FBusiness := Value;
 end;
 
 function TDsmBase.Unique(const pID: integer; const pQuery: TFDQuery): TStream;
 begin
-  try
-    pQuery.Close;
-    pQuery.Params[0].AsInteger := pID;
-    pQuery.Open;
-    Result := TMemoryStream.Create;
-    pQuery.SchemaAdapter.SaveToStream(Result, TFDStorageFormat.sfJSON);
-    Result.Position := 0;
-  except on
-    E: Exception do
-      raise;
-  end;
+  // classes filhas
 end;
 
 function TDsmBase.Update(const AStream: TStream; const pSchemaAdapter: TFDSchemaAdapter): Boolean;
-var
-  LMemStream: TMemoryStream;
 begin
-  try
-    QueryBase.Close;
-    LMemStream := CopyStream(AStream);
-    LMemStream.Position := 0;
-    try
-      pSchemaAdapter.LoadFromStream(LMemStream, TFDStorageFormat.sfJSON);
-      Result := pSchemaAdapter.ApplyUpdates = 0;
-      if not Result then
-        raise Exception.Create('Não foi possível salvar as alterações');
-
-    finally
-      LMemStream.Free;
-    end;
-  except on
-    E: Exception do
-      raise;
-  end;
+  // classes filhas
 end;
 
 end.

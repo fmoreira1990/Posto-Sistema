@@ -9,8 +9,13 @@ Source/Client/Bomba/__history
 Source/Client/Produtos/__history
 Source/Client/Tanque/__history
 Source/Server/Win32
+Source/Server/__recovery
 Source/Server/__history
 Source/Server/Controller/__history
+Source/Server/Business/__history
+Source/Server/Business/DAO/__history
+Source/Server/Dynamic/__history
+
 *.local
 *.dres
 *.identcache

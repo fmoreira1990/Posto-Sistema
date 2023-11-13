@@ -13,8 +13,6 @@ inherited Venda: TVenda
     Height = 559
     Align = alClient
     TabOrder = 1
-    ExplicitWidth = 970
-    ExplicitHeight = 381
     object ListBombas: TListView
       Left = 1
       Top = 1
@@ -53,8 +51,6 @@ inherited Venda: TVenda
       ViewStyle = vsReport
       OnDblClick = ListBombasDblClick
       OnKeyDown = ListBombasKeyDown
-      ExplicitWidth = 968
-      ExplicitHeight = 379
     end
   end
   object pnlTop: TPanel
@@ -65,7 +61,6 @@ inherited Venda: TVenda
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitWidth = 970
     object btnVender: TButton
       Left = 16
       Top = 9
@@ -247,13 +242,11 @@ inherited Venda: TVenda
       000000000000}
   end
   object dsBombas: TDataSource
-    DataSet = VendaDAO.memBombaCons
-    Left = 816
-    Top = 281
+    Left = 480
+    Top = 377
   end
   object dsBase: TDataSource
-    DataSet = VendaDAO.memBase
-    Left = 816
-    Top = 345
+    Left = 480
+    Top = 441
   end
 end

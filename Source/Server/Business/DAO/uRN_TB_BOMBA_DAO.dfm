@@ -1,7 +1,6 @@
-inherited DsmBomba: TDsmBomba
-  OldCreateOrder = True
-  Height = 398
-  Width = 787
+inherited RN_TB_BOMBA_DAO: TRN_TB_BOMBA_DAO
+  Height = 283
+  Width = 588
   inherited QueryBase: TFDQuery
     MasterFields = 'ID_BOMBA'
     UpdateOptions.AssignedValues = [uvGeneratorName]
@@ -23,7 +22,6 @@ inherited DsmBomba: TDsmBomba
         Name = 'ID_BOMBA'
         DataType = ftInteger
         ParamType = ptInput
-        Value = Null
       end>
     object QueryBaseID_BOMBA: TFDAutoIncField
       FieldName = 'ID_BOMBA'
@@ -63,8 +61,10 @@ inherited DsmBomba: TDsmBomba
       Size = 50
     end
   end
+  inherited FDSchemaAdapter: TFDSchemaAdapter
+    OnReconcileRow = nil
+  end
   inherited QueryLista: TFDQuery
-    MasterFields = 'ID_BOMBA'
     SQL.Strings = (
       'select bb.*,'
       '       bb.numero as nro_bomba,'
@@ -148,13 +148,5 @@ inherited DsmBomba: TDsmBomba
       Precision = 18
       Size = 2
     end
-  end
-  object FDStanStorageJSONLink1: TFDStanStorageJSONLink [3]
-    Left = 104
-    Top = 168
-  end
-  object FDStanStorageBinLink1: TFDStanStorageBinLink [4]
-    Left = 104
-    Top = 72
   end
 end

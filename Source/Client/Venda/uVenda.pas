@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uPostoBase, System.Actions,
   Vcl.ActnList, Vcl.Menus, Vcl.Imaging.pngimage, Vcl.ExtCtrls, System.ImageList,
-  Vcl.ImgList, Vcl.ComCtrls, uVendaDAo, Data.DB, Vcl.StdCtrls;
+  Vcl.ImgList, Vcl.ComCtrls, Data.DB, Vcl.StdCtrls, uBaseIntf;
 
 type
   TVenda = class(TPostoBase)
@@ -26,14 +26,18 @@ type
     procedure acVenderExecute(Sender: TObject);
     procedure acFecharExecute(Sender: TObject);
     procedure ListBombasDblClick(Sender: TObject);
-    procedure ListBombasKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
+    procedure ListBombasKeyDown(Sender: TObject; var Key: Word;      Shift: TShiftState);
   private
     procedure CriarLista;
   protected
     procedure DoShow; override;
     { Private declarations }
+
   public
+    class function New: IView; override;
+    procedure AfterConstruction; override;
+    procedure Inicializar; override;
+
     { Public declarations }
 
   end;
@@ -41,8 +45,8 @@ type
 implementation
 
 uses
-  uBaseIntf,
-  uVendaFinalizar, FireDAC.Comp.Client;
+  uVendaFinalizar,
+  uVendaDAo;
 
 {$R *.dfm}
 
@@ -54,12 +58,12 @@ end;
 
 procedure TVenda.acVenderExecute(Sender: TObject);
 var
-  vVendaFinalizar: IView; // TVendaFinalizar;
+  vVendaFinalizar: IView;
 begin
   inherited;
   if dsBombas.DataSet.Locate('ID_BOMBA', ListBombas.Items[ListBombas.ItemIndex].SubItems[2], []) then
   begin
-    if DAO.DoInsert(TFDMemTable(dsBase.DataSet)) then
+    if DAO.DoInsert(dsBase.DataSet) then
     begin
       dsBase.DataSet.FieldByName('ID_PRODUTO').AsInteger := dsBombas.DataSet.FieldByName('ID_PRODUTO').AsInteger;
       dsBase.DataSet.FieldByName('ID_TANQUE').AsInteger := dsBombas.DataSet.FieldByName('ID_TANQUE').AsInteger;
@@ -72,11 +76,18 @@ begin
       dsBase.DataSet.FieldByName('HORA').AsDateTime := Time;
       dsBase.DataSet.Post;
 
-      vVendaFinalizar := TVendaFinalizar.Create;
+      vVendaFinalizar := TVendaFinalizar.New;
       vVendaFinalizar.DAO := DAO;
       vVendaFinalizar.ShowModal;
     end;
   end;
+end;
+
+procedure TVenda.AfterConstruction;
+begin
+  DAO := TVendaDAO.New;
+
+  inherited;
 end;
 
 procedure TVenda.CriarLista;
@@ -109,6 +120,13 @@ begin
   end;
 end;
 
+procedure TVenda.Inicializar;
+begin
+  inherited;
+  dsBombas.DataSet := DAO.DataSet['memBombaCons'];
+  dsBase.DataSet := DAO.DataSet['memBase'];
+end;
+
 procedure TVenda.ListBombasDblClick(Sender: TObject);
 begin
   inherited;
@@ -120,6 +138,11 @@ begin
   inherited;
   if Key = VK_RETURN then
     acVender.Execute;
+end;
+
+class function TVenda.New: IView;
+begin
+  Result := Self.Create;
 end;
 
 end.

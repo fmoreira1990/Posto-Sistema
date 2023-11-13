@@ -10,7 +10,8 @@ uses
   FireDAC.Phys, FireDAC.Phys.FB, FireDAC.Phys.FBDef, FireDAC.VCLUI.Wait,
   FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt, Data.DB,
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, FireDAC.Phys.IBBase,
-  FireDAC.Stan.StorageJSON, FireDAC.Stan.StorageBin;
+  FireDAC.Stan.StorageJSON, FireDAC.Stan.StorageBin, uPostoServerInterface,
+  RN_TB_PRODUTO;
 
 type
   TDsmProduto = class(TDsmBase)
@@ -27,7 +28,10 @@ type
     QueryBasePER_IMPOSTO: TFMTBCDField;
     QueryBaseDESCRICAO: TStringField;
   private
+  protected
+    procedure AfterConstruction; override;
     { Private declarations }
+
   public
     { Public declarations }
     function ListProdutos: TStream;
@@ -44,37 +48,25 @@ implementation
 
 { TDsmProduto }
 
+procedure TDsmProduto.AfterConstruction;
+begin
+  inherited;
+  Business := TRN_TB_PRODUTO.New;
+end;
+
 function TDsmProduto.ListProdutos: TStream;
 begin
-  Result := nil;
-  try
-    Result := List(QueryLista);
-  except on
-    E: Exception do
-      raise;
-  end;
+  Result := (Business as IBusinessTbProduto).ListProdutos();
 end;
 
 function TDsmProduto.Produtos(const pIDProduto: integer): TStream;
 begin
-  Result := nil;
-  try
-    Result := Unique(pIDProduto, QueryBase);
-  except on
-    E: Exception do
-      raise;
-  end;
+  Result := (Business as IBusinessTbProduto).Produtos(pIDProduto);
 end;
 
 function TDsmProduto.updateProdutos(const AStream: TStream): Boolean;
 begin
-  Result := False;
-  try
-    Result := Update(AStream, FDSchemaAdapter);
-  except on
-    E: Exception do
-      raise;
-  end;
+  Result := (Business as IBusinessTbProduto).updateProdutos(AStream);
 end;
 
 end.

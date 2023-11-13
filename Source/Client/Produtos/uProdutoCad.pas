@@ -6,20 +6,23 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uPostoClientCad, Data.DB,
   System.Actions, Vcl.ActnList, Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls,
-  Vcl.ExtCtrls, uProdutoDAO, uProdutoEdit;
+  Vcl.ExtCtrls, uBaseIntf;
 
 type
   TProdutoCad = class(TPostoClientCad)
   private
     { Private declarations }
   public
-    procedure AfterConstruction; override;
-
     { Public declarations }
-
+    procedure AfterConstruction; override;
+    class function New: IView; override;
   end;
 
 implementation
+
+uses
+  uProdutoDAO,
+  uProdutoEdit;
 
 {$R *.dfm}
 
@@ -27,14 +30,18 @@ implementation
 
 procedure TProdutoCad.AfterConstruction;
 begin
-  if not Assigned(FPostoClientEdit) then
-  begin
-    FPostoClientEdit := TProdutoEdit.Create();
-  end;
+  DAO := TProdutoDAO.New;
+  PostoClientEdit := TProdutoEdit.New;
 
   inherited;
 end;
 
+class function TProdutoCad.New: IView;
+begin
+  Result := Self.Create;
+end;
+
 end.
+
 
 

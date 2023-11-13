@@ -4,9 +4,9 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uPostoBase, uVendaDAO, Data.DB,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uPostoBase, Data.DB,
   Vcl.StdCtrls, Vcl.Mask, Vcl.DBCtrls, System.Actions, Vcl.ActnList,
-  Vcl.ExtCtrls;
+  Vcl.ExtCtrls, uBaseIntf;
 
 type
   TVendaFinalizar = class(TPostoBase)
@@ -29,11 +29,14 @@ type
     procedure acCancelarExecute(Sender: TObject);
     procedure acConcluirExecute(Sender: TObject);
   private
+    { Private declarations }
   protected
     procedure DoShow; override;
-    { Private declarations }
   public
     { Public declarations }
+    class function New: IView; override;
+    procedure Inicializar; override;
+
 
   end;
 
@@ -69,6 +72,18 @@ begin
 
   if edtQtde.CanFocus then
     edtQtde.SetFocus;
+end;
+
+procedure TVendaFinalizar.Inicializar;
+begin
+  inherited;
+  dsBombas.DataSet := DAO.DataSet['memBombaCons'];
+  dsBase.DataSet := DAO.DataSet['memBase'];
+end;
+
+class function TVendaFinalizar.New: IView;
+begin
+  Result := Self.Create;
 end;
 
 end.
