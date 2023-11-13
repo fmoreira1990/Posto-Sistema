@@ -5,7 +5,7 @@ interface
 uses
   System.SysUtils, System.Classes, Datasnap.DSServer,
   Datasnap.DSAuth, Datasnap.DSProviderDataModuleAdapter,
-  System.JSON, uDsmBase, uPostoServerInterface;
+  System.JSON, uDsmBase;
 
 type
   TDsmProduto = class(TDsmBase)
@@ -25,7 +25,8 @@ type
 implementation
 
 uses
-  RN_TB_PRODUTO;
+  RN_TB_PRODUTO,
+  uPostoServerInterface;
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 

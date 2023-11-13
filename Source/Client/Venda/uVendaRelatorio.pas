@@ -49,10 +49,10 @@ type
     { Private declarations }
   public
     { Public declarations }
-    procedure DoExecuteReport;
     class function New: IView; override;
-    procedure AfterConstruction; override;
 
+    procedure DoExecuteReport;
+    procedure AfterConstruction; override;
   end;
 
 implementation

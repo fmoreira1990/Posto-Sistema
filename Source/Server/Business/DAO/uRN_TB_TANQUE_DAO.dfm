@@ -1,4 +1,5 @@
 inherited RN_TB_TANQUE_DAO: TRN_TB_TANQUE_DAO
+  OldCreateOrder = True
   Height = 265
   Width = 551
   inherited QueryBase: TFDQuery

@@ -21,13 +21,11 @@ type
     memProdCons: TFDMemTable;
     FDStoredProcProdCons: TFDStoredProc;
   private
-  protected
     { Private declarations }
   public
+    { Public declarations }
     procedure AfterConstruction; override;
     class function New: IPostoClientDAO; override;
-    { Public declarations }
-
   end;
 
 implementation

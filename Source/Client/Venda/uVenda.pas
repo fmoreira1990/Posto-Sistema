@@ -26,19 +26,17 @@ type
     procedure acVenderExecute(Sender: TObject);
     procedure acFecharExecute(Sender: TObject);
     procedure ListBombasDblClick(Sender: TObject);
-    procedure ListBombasKeyDown(Sender: TObject; var Key: Word;      Shift: TShiftState);
+    procedure ListBombasKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
+    { Private declarations }
     procedure CriarLista;
   protected
     procedure DoShow; override;
-    { Private declarations }
-
   public
+    { Public declarations }
     class function New: IView; override;
     procedure AfterConstruction; override;
     procedure Inicializar; override;
-
-    { Public declarations }
 
   end;
 
@@ -61,24 +59,27 @@ var
   vVendaFinalizar: IView;
 begin
   inherited;
-  if dsBombas.DataSet.Locate('ID_BOMBA', ListBombas.Items[ListBombas.ItemIndex].SubItems[2], []) then
+  if ListBombas.ItemIndex >= 0 then
   begin
-    if DAO.DoInsert(dsBase.DataSet) then
+    if dsBombas.DataSet.Locate('ID_BOMBA', ListBombas.Items[ListBombas.ItemIndex].SubItems[2], []) then
     begin
-      dsBase.DataSet.FieldByName('ID_PRODUTO').AsInteger := dsBombas.DataSet.FieldByName('ID_PRODUTO').AsInteger;
-      dsBase.DataSet.FieldByName('ID_TANQUE').AsInteger := dsBombas.DataSet.FieldByName('ID_TANQUE').AsInteger;
-      dsBase.DataSet.FieldByName('ID_BOMBA').AsInteger := dsBombas.DataSet.FieldByName('ID_BOMBA').AsInteger;
-      dsBase.DataSet.FieldByName('VR_CUSTO').AsFloat := dsBombas.DataSet.FieldByName('VR_CUSTO').AsFloat;
-      dsBase.DataSet.FieldByName('VR_VENDA').AsFloat := dsBombas.DataSet.FieldByName('VR_VENDA').AsFloat;
-      dsBase.DataSet.FieldByName('PER_IMPOSTO').AsFloat := dsBombas.DataSet.FieldByName('PER_IMPOSTO').AsFloat;
-      dsBase.DataSet.FieldByName('QTDE').AsFloat := 1;
-      dsBase.DataSet.FieldByName('DATA').AsDateTime := Date;
-      dsBase.DataSet.FieldByName('HORA').AsDateTime := Time;
-      dsBase.DataSet.Post;
+      if DAO.DoInsert(dsBase.DataSet) then
+      begin
+        dsBase.DataSet.FieldByName('ID_PRODUTO').AsInteger := dsBombas.DataSet.FieldByName('ID_PRODUTO').AsInteger;
+        dsBase.DataSet.FieldByName('ID_TANQUE').AsInteger := dsBombas.DataSet.FieldByName('ID_TANQUE').AsInteger;
+        dsBase.DataSet.FieldByName('ID_BOMBA').AsInteger := dsBombas.DataSet.FieldByName('ID_BOMBA').AsInteger;
+        dsBase.DataSet.FieldByName('VR_CUSTO').AsFloat := dsBombas.DataSet.FieldByName('VR_CUSTO').AsFloat;
+        dsBase.DataSet.FieldByName('VR_VENDA').AsFloat := dsBombas.DataSet.FieldByName('VR_VENDA').AsFloat;
+        dsBase.DataSet.FieldByName('PER_IMPOSTO').AsFloat := dsBombas.DataSet.FieldByName('PER_IMPOSTO').AsFloat;
+        dsBase.DataSet.FieldByName('QTDE').AsFloat := 1;
+        dsBase.DataSet.FieldByName('DATA').AsDateTime := Date;
+        dsBase.DataSet.FieldByName('HORA').AsDateTime := Time;
+        dsBase.DataSet.Post;
 
-      vVendaFinalizar := TVendaFinalizar.New;
-      vVendaFinalizar.DAO := DAO;
-      vVendaFinalizar.ShowModal;
+        vVendaFinalizar := TVendaFinalizar.New;
+        vVendaFinalizar.DAO := DAO;
+        vVendaFinalizar.ShowModal;
+      end;
     end;
   end;
 end;
@@ -92,17 +93,17 @@ end;
 
 procedure TVenda.CriarLista;
 var
-  ListItem: TListItem;
+  vListItem: TListItem;
 begin
   dsBombas.DataSet.First;
   while not dsBombas.DataSet.Eof do
   begin
-    ListItem := ListBombas.Items.Add;
-    ListItem.Caption := dsBombas.DataSet.FieldByName('NRO_BOMBA').AsString;
+    vListItem := ListBombas.Items.Add;
+    vListItem.Caption := dsBombas.DataSet.FieldByName('NRO_BOMBA').AsString;
 
-    ListItem.SubItems.Add(dsBombas.DataSet.FieldByName('DS_PRODUTO').AsString);
-    ListItem.SubItems.Add(FloatToStr(dsBombas.DataSet.FieldByName('VR_VENDA').AsFloat));
-    ListItem.SubItems.Add(dsBombas.DataSet.FieldByName('ID_BOMBA').AsString);
+    vListItem.SubItems.Add(dsBombas.DataSet.FieldByName('DS_PRODUTO').AsString);
+    vListItem.SubItems.Add(FloatToStr(dsBombas.DataSet.FieldByName('VR_VENDA').AsFloat));
+    vListItem.SubItems.Add(dsBombas.DataSet.FieldByName('ID_BOMBA').AsString);
 
     dsBombas.DataSet.Next;
   end;

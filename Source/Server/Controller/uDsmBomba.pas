@@ -4,7 +4,8 @@ interface
 
 uses
   System.SysUtils, System.Classes, Datasnap.DSServer,
-  Datasnap.DSAuth, Datasnap.DSProviderDataModuleAdapter, uDsmBase;
+  Datasnap.DSAuth, Datasnap.DSProviderDataModuleAdapter,
+  uDsmBase;
 
 type
   TDsmBomba = class(TDsmBase)

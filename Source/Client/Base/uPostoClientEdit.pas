@@ -23,12 +23,9 @@ type
   private
     { Private declarations }
   public
+    { Public declarations }
     class function New: IView; override;
     procedure Inicializar; override;
-    procedure AfterConstruction; override;
-
-    { Public declarations }
-
   end;
 
 implementation
@@ -50,12 +47,6 @@ end;
 procedure TPostoClientEdit.acSalvarUpdate(Sender: TObject);
 begin
   TAction(Sender).Enabled := DAO.CanPost;
-end;
-
-procedure TPostoClientEdit.AfterConstruction;
-begin
-  inherited;
-  //
 end;
 
 procedure TPostoClientEdit.Inicializar;

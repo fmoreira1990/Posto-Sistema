@@ -13,11 +13,9 @@ type
   private
     { Private declarations }
   public
+    { Public declarations }
     procedure AfterConstruction; override;
     class function New: IView; override;
-
-    { Public declarations }
-
   end;
 
 implementation

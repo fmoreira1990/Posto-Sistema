@@ -165,22 +165,6 @@ begin
   Self.WindowState := wsNormal;
 end;
 
-initialization
- { RegisterClass(TIntegerField);
-  RegisterClass(TWideStringField);
-  RegisterClass(TStringField);
-  RegisterClass(TIntegerField);
-  RegisterClass(TFMTBCDField);
-  RegisterClass(TBCDField);
-  RegisterClass(TFloatField);
-  RegisterClass(TWideMemoField);
-  RegisterClass(TDateTimeField);
-  RegisterClass(TTimeField);
-  RegisterClass(TDateField);
-  RegisterClass(TSQLTimeStampField);
-  RegisterClass(TBlobField);
-  RegisterClass(TBooleanField);  }
-
 end.
 
 

@@ -16,7 +16,6 @@ type
   private
   protected
     { Private declarations }
-
   public
     { Public declarations }
     class function New: IPostoClientDAO; override;

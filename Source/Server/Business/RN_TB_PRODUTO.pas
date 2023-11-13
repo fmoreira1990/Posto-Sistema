@@ -23,7 +23,8 @@ type
 implementation
 
 uses
-  uRN_TB_PRODUTO_DAO, System.SysUtils;
+  uRN_TB_PRODUTO_DAO,
+  System.SysUtils;
 
 procedure TRN_TB_PRODUTO.AfterConstruction;
 begin

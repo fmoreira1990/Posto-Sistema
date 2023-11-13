@@ -242,12 +242,8 @@ inherited RN_TB_VENDA_DAO: TRN_TB_VENDA_DAO
       ReadOnly = True
     end
   end
-  inherited FDConnection1: TFDConnection
-    Connected = True
-  end
   object QueryVendas: TFDQuery
     MasterFields = 'ID_VENDA'
-    Connection = FDConnection1
     SQL.Strings = (
       'select vv.data,'
       '       cast(sum(vv.qtde) as FLOAT) as qtde,'

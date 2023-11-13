@@ -6,8 +6,10 @@ uses
   Classes,
   uPostoServerINterface,
   FireDAC.Comp.Client,
-  FireDAC.Phys.FBDef, FireDAC.Phys, FireDAC.Phys.IBBase,
-  FireDAC.Phys.FB, FireDAC.Stan.StorageJSON, FireDAC.Stan.StorageBIN;
+  FireDAC.Phys.FBDef, FireDAC.Stan.Def, FireDAC.Stan.StorageBin,
+  FireDAC.Stan.StorageJSON, FireDAC.Stan.Intf, FireDAC.Phys,
+  FireDAC.Phys.IBBase, FireDAC.Phys.FB, FireDAC.UI.Intf, FireDAC.VCLUI.Wait,
+  FireDAC.Comp.UI;
 
 type
   TDynamicConnectionFireDAC = class(TInterfacedObject, IDynamicConnection)

@@ -20,11 +20,9 @@ type
   protected
     procedure DoChange(Sender: TField); override;
   public
+    { Public declarations }
     procedure AfterConstruction; override;
     class function New: IPostoClientDAO; override;
-
-    { Public declarations }
-
   end;
 
 implementation

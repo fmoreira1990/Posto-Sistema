@@ -1,4 +1,5 @@
 inherited RN_TB_BOMBA_DAO: TRN_TB_BOMBA_DAO
+  OldCreateOrder = True
   Height = 283
   Width = 588
   inherited QueryBase: TFDQuery

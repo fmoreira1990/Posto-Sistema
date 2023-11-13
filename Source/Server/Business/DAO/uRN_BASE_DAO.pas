@@ -4,18 +4,15 @@ interface
 
 uses
   System.SysUtils, System.Classes, uPostoServerInterface, FireDAC.Stan.Intf,
-  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.DatS,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
-  FireDAC.Comp.Client, Data.DB, FireDAC.Comp.DataSet, FireDAC.Stan.Error,
-  FireDAC.UI.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Phys,
-  FireDAC.Phys.FB, FireDAC.Phys.FBDef, FireDAC.VCLUI.Wait;
+  FireDAC.Comp.Client, Data.DB, FireDAC.Comp.DataSet;
 
 type
   TRN_BASE_DAO = class(TDataModule)
     QueryBase: TFDQuery;
     FDSchemaAdapter: TFDSchemaAdapter;
     QueryLista: TFDQuery;
-    FDConnection1: TFDConnection;
     procedure FDSchemaAdapterReconcileRow(ASender: TObject; ARow: TFDDatSRow; var Action: TFDDAptReconcileAction);
   private
     { Private declarations }

@@ -18,23 +18,14 @@ type
     lblTanque: TLabel;
     lblNumero: TLabel;
   private
-  protected
-    procedure DoShow; override;
     { Private declarations }
   public
-    class function New: IView; override;
     { Public declarations }
-
+    class function New: IView; override;
   end;
 
 implementation
 {$R *.dfm}
-
-procedure TBombaEdit.DoShow;
-begin
-  inherited;
-
-end;
 
 class function TBombaEdit.New: IView;
 begin

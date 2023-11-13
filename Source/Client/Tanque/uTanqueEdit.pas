@@ -21,11 +21,9 @@ type
     dsProdCons: TDataSource;
   private
     { Private declarations }
-  protected
   public
-    class function New: IView; override;
     { Public declarations }
-
+    class function New: IView; override;
   end;
 
 implementation

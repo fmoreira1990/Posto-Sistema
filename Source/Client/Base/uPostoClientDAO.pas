@@ -49,7 +49,7 @@ type
     procedure DoChange(Sender: TField); virtual;
   public
     { Public declarations }
-    AppEvent: TApplicationEvents;
+    FAppEvent: TApplicationEvents;
 
     function QueryInterface(const IID: TGUID; out Obj): HResult; override; stdcall;
     function _AddRef: Integer; stdcall;
@@ -66,7 +66,11 @@ type
 implementation
 
 uses
-  System.Variants, Vcl.Dialogs, RegExpr, Winapi.Windows, TypInfo;
+  System.Variants,
+  Vcl.Dialogs,
+  RegExpr,
+  Winapi.Windows,
+  TypInfo;
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
@@ -111,7 +115,7 @@ end;
 function TPostoClientDAO.CanPost: Boolean;
 var
   I: Integer;
-  LDataSet: TFDAdaptedDataSet;
+  vDataSet: TFDAdaptedDataSet;
 begin
   Result := (FDSchemaAdapter <> nil);
   if Result then
@@ -119,8 +123,8 @@ begin
     Result := False;
     for I := 0 to FDSchemaAdapter.Count - 1 do
     begin
-      LDataSet := FDSchemaAdapter.DataSets[I];
-      if (LDataSet.ChangeCount > 0) or (LDataSet.State in dsEditModes) then
+      vDataSet := FDSchemaAdapter.DataSets[I];
+      if (vDataSet.ChangeCount > 0) or (vDataSet.State in dsEditModes) then
       begin
         Result := True;
         break;
@@ -139,8 +143,8 @@ var
   i: integer;
 begin
   inherited;
-  AppEvent := TApplicationEvents.Create(Self);
-  AppEvent.OnException := DoException;
+  FAppEvent := TApplicationEvents.Create(Self);
+  FAppEvent.OnException := DoException;
 
   for I := 0 to ComponentCount - 1 do
   begin
@@ -158,26 +162,26 @@ end;
 procedure TPostoClientDAO.BeforeDestruction;
 begin
   inherited;
-  //FDConnection.Connected := False;
+  FreeAndNil(FAppEvent);
 end;
 
 function TPostoClientDAO.DoConsultar: Boolean;
 var
-  LStringStream: TStream;
+  vStringStream: TStream;
 begin
   Result := False;
   memLista.Close;
   FDStoredProcConsulta.ExecProc;
-  LStringStream := TStringStream.Create(FDStoredProcConsulta.Params[0].AsBlob);
+  vStringStream := TStringStream.Create(FDStoredProcConsulta.Params[0].AsBlob);
   try
-    if LStringStream <> nil then
+    if vStringStream <> nil then
     begin
-      LStringStream.Position := 0;
-      memLista.LoadFromStream(LStringStream, TFDStorageFormat.sfJSON);
+      vStringStream.Position := 0;
+      memLista.LoadFromStream(vStringStream, TFDStorageFormat.sfJSON);
       Result := True;
     end;
   finally
-    LStringStream.Free;
+    vStringStream.Free;
   end;
 end;
 
@@ -190,12 +194,12 @@ end;
 
 procedure TPostoClientDAO.DoChange(Sender: TField);
 begin
-  //
+  // classes filhas
 end;
 
 function TPostoClientDAO.DoConsultar(const pIDProduto: integer): Boolean;
 var
-  LStringStream: TStream;
+  vStringStream: TStream;
 begin
   Result := False;
   memBase.Close;
@@ -203,16 +207,16 @@ begin
   FDStoredProcConsultaUnique.Params[0].AsInteger := pIDProduto;
   FDStoredProcConsultaUnique.ExecProc;
 
-  LStringStream := TStringStream.Create(FDStoredProcConsultaUnique.Params[1].AsBlob);
+  vStringStream := TStringStream.Create(FDStoredProcConsultaUnique.Params[1].AsBlob);
   try
-    if LStringStream <> nil then
+    if vStringStream <> nil then
     begin
-      LStringStream.Position := 0;
-      memBase.LoadFromStream(LStringStream, TFDStorageFormat.sfJSON);
+      vStringStream.Position := 0;
+      memBase.LoadFromStream(vStringStream, TFDStorageFormat.sfJSON);
       Result := memBase.RecordCount > 0;
     end;
   finally
-    LStringStream.Free;
+    vStringStream.Free;
   end;
 end;
 
@@ -304,21 +308,21 @@ end;
 
 function TPostoClientDAO.DoConsultar(const pDataSet: TDataSet; pStoredProcConsulta: TObject): Boolean;
 var
-  LStringStream: TStream;
+  vStringStream: TStream;
 begin
   Result := False;
   pDataSet.Close;
   TFDStoredProc(pStoredProcConsulta).ExecProc;
-  LStringStream := TStringStream.Create(TFDStoredProc(pStoredProcConsulta).Params[0].AsBlob);
+  vStringStream := TStringStream.Create(TFDStoredProc(pStoredProcConsulta).Params[0].AsBlob);
   try
-    if LStringStream <> nil then
+    if vStringStream <> nil then
     begin
-      LStringStream.Position := 0;
-      TFDMemTable(pDataSet).LoadFromStream(LStringStream, TFDStorageFormat.sfJSON);
+      vStringStream.Position := 0;
+      TFDMemTable(pDataSet).LoadFromStream(vStringStream, TFDStorageFormat.sfJSON);
       Result := True;
     end;
   finally
-    LStringStream.Free;
+    vStringStream.Free;
   end;
 end;
 
@@ -348,29 +352,29 @@ end;
 
 function TPostoClientDAO.DoSalvar(const pDataSet: TDataSet): Boolean;
 var
-  LMemStream: TMemoryStream;
+  vMemStream: TMemoryStream;
   I: integer;
-  LDataSet: TDataSet;
+  vDataSet: TDataSet;
 begin
   Result := False;
 
   for I := 0 to TFDMemTable(pDataSet).Adapter.SchemaAdapter.Count - 1 do
   begin
-    LDataSet := TFDMemTable(pDataSet).Adapter.SchemaAdapter.DataSets[I];
-    if LDataSet <> nil then
-      if LDataSet.State in dsEditModes then
-        LDataSet.Post;
+    vDataSet := TFDMemTable(pDataSet).Adapter.SchemaAdapter.DataSets[I];
+    if vDataSet <> nil then
+      if vDataSet.State in dsEditModes then
+        vDataSet.Post;
   end;
 
-  LMemStream := nil;
-  LMemStream := TMemoryStream.Create;
+  vMemStream := nil;
+  vMemStream := TMemoryStream.Create;
   try
     try
       TFDMemTable(pDataSet).Adapter.SchemaAdapter.ResourceOptions.StoreItems := [siDelta, siMeta];
-      TFDMemTable(pDataSet).Adapter.SchemaAdapter.SaveToStream(LMemStream, TFDStorageFormat.sfJSON);
-      LMemStream.Position := 0;
+      TFDMemTable(pDataSet).Adapter.SchemaAdapter.SaveToStream(vMemStream, TFDStorageFormat.sfJSON);
+      vMemStream.Position := 0;
 
-      FDStoredProcPost.Params[0].asStream := LMemStream;
+      FDStoredProcPost.Params[0].asStream := vMemStream;
       FDStoredProcPost.ExecProc;
 
       Result := FDStoredProcPost.Params[1].AsBoolean;
@@ -379,7 +383,7 @@ begin
         DoConsultar;
       end;
     finally
-      //FreeAndNil(LMemStream);
+      //FreeAndNil(vMemStream);
     end;
   except
     on E: Exception do
@@ -437,46 +441,44 @@ var
   vField: TField;
   vMask: string;
 begin
-  //if pDataSet <> memLista then
-  begin
-    for vField in pDataSet.Fields do
-    begin
-      vField.OnChange := DoChange;
 
-      if (vField is TIntegerField) or
-        (vField is TLargeintField) or
-        (vField is TSmallintField) then
-      begin
-        if TLargeintField(vField).DisplayFormat = EmptyStr then
-          TLargeintField(vField).DisplayFormat := '########0';
-      end
-      else if (vField is TFMTBCDField) or
-        (vField is TBCDField) or
-        (vField is TFloatField) then
-      begin
-        vMask := '###,###,##0.00';
-        if TFloatField(vField).Size > 0 then
-          vMask := '###,###,##0.' + Concatena('0', TFloatField(vField).Size, '0');
-        if (TFloatField(vField).EditFormat = EmptyStr) then
-          TFloatField(vField).EditFormat := vMask;
-        if (TFloatField(vField).DisplayFormat = EmptyStr) then
-          TFloatField(vField).DisplayFormat := vMask;
-      end
-      else if vField is TDateField then
-      begin
-        if (TDateField(vField).EditMask = EmptyStr) then
-          TDateField(vField).EditMask := '!99/99/9999;1;_';
-        if (TDateField(vField).DisplayFormat = EmptyStr) then
-          TDateField(vField).DisplayFormat := 'dd/mm/yyyy';
-      end
-      else if (vField is TTimeField) or
-        (vField is TSQLTimeStampField) then
-      begin
-        if (TTimeField(vField).EditMask = EmptyStr) then
-          TTimeField(vField).EditMask := '!99:99:99;1;_';
-        if (TTimeField(vField).DisplayFormat = EmptyStr) then
-          TTimeField(vField).DisplayFormat := 'hh:mm:ss';
-      end;
+  for vField in pDataSet.Fields do
+  begin
+    vField.OnChange := DoChange;
+
+    if (vField is TIntegerField) or
+      (vField is TLargeintField) or
+      (vField is TSmallintField) then
+    begin
+      if TLargeintField(vField).DisplayFormat = EmptyStr then
+        TLargeintField(vField).DisplayFormat := '########0';
+    end
+    else if (vField is TFMTBCDField) or
+      (vField is TBCDField) or
+      (vField is TFloatField) then
+    begin
+      vMask := '###,###,##0.00';
+      if TFloatField(vField).Size > 0 then
+        vMask := '###,###,##0.' + Concatena('0', TFloatField(vField).Size, '0');
+      if (TFloatField(vField).EditFormat = EmptyStr) then
+        TFloatField(vField).EditFormat := vMask;
+      if (TFloatField(vField).DisplayFormat = EmptyStr) then
+        TFloatField(vField).DisplayFormat := vMask;
+    end
+    else if vField is TDateField then
+    begin
+      if (TDateField(vField).EditMask = EmptyStr) then
+        TDateField(vField).EditMask := '!99/99/9999;1;_';
+      if (TDateField(vField).DisplayFormat = EmptyStr) then
+        TDateField(vField).DisplayFormat := 'dd/mm/yyyy';
+    end
+    else if (vField is TTimeField) or
+      (vField is TSQLTimeStampField) then
+    begin
+      if (TTimeField(vField).EditMask = EmptyStr) then
+        TTimeField(vField).EditMask := '!99:99:99;1;_';
+      if (TTimeField(vField).DisplayFormat = EmptyStr) then
+        TTimeField(vField).DisplayFormat := 'hh:mm:ss';
     end;
   end;
 end;
