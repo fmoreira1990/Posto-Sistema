@@ -4,32 +4,11 @@ interface
 
 uses
   System.SysUtils, System.Classes, Datasnap.DSServer,
-  Datasnap.DSAuth, Datasnap.DSProviderDataModuleAdapter, uDsmBase,
-  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
-  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
-  FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.Client,
-  FireDAC.Comp.DataSet, FireDAC.UI.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool,
-  FireDAC.Phys, FireDAC.Phys.FB, FireDAC.Phys.FBDef, FireDAC.VCLUI.Wait,
-  FireDAC.Stan.StorageBin, FireDAC.Stan.StorageJSON;
+  Datasnap.DSAuth, Datasnap.DSProviderDataModuleAdapter,
+  uDsmBase;
 
 type
   TDsmVenda = class(TDsmBase)
-    QueryBaseID_VENDA: TIntegerField;
-    QueryBaseID_PRODUTO: TIntegerField;
-    QueryBaseID_TANQUE: TIntegerField;
-    QueryBaseID_BOMBA: TIntegerField;
-    QueryBaseDATA: TDateField;
-    QueryBaseHORA: TTimeField;
-    QueryBaseQTDE: TFMTBCDField;
-    QueryBaseVR_VENDA: TFMTBCDField;
-    QueryBaseVR_CUSTO: TFMTBCDField;
-    QueryBaseVR_TOTAL: TFMTBCDField;
-    QueryBasePER_IMPOSTO: TFMTBCDField;
-    QueryBaseBC_IMPOSTO: TFMTBCDField;
-    QueryBaseVR_IMPOSTO: TFMTBCDField;
-    QueryBaseDS_PRODUTO: TStringField;
-    QueryBaseNRO_BOMBA: TIntegerField;
-    QueryBaseNRO_TANQUE: TIntegerField;
   private
     { Private declarations }
   protected

@@ -9,7 +9,6 @@ uses
 type
   TDynamicFactory = class(TInterfacedObject, IDynamicFactory)
   strict private
-    FRefCount: integer;
     FConnection: IDynamicConnection;
   private
     function NewConnection: IDynamicConnection;

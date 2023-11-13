@@ -26,7 +26,8 @@ uses
   uRN_TB_TANQUE_DAO in 'Business\DAO\uRN_TB_TANQUE_DAO.pas' {RN_TB_TANQUE_DAO: TDataModule},
   RN_TB_PRODUTO in 'Business\RN_TB_PRODUTO.pas',
   uRN_TB_PRODUTO_DAO in 'Business\DAO\uRN_TB_PRODUTO_DAO.pas' {RN_TB_PRODUTO_DAO: TDataModule},
-  uRN_TB_VENDA_DAO in 'Business\DAO\uRN_TB_VENDA_DAO.pas' {RN_TB_VENDA_DAO: TDataModule};
+  uRN_TB_VENDA_DAO in 'Business\DAO\uRN_TB_VENDA_DAO.pas' {RN_TB_VENDA_DAO: TDataModule},
+  RN_TB_VENDA in 'Business\RN_TB_VENDA.pas';
 
 {$R *.res}
 
@@ -37,7 +38,6 @@ begin
   Application.MainFormOnTaskbar := False;
   Application.Title := 'Posto Fortes - Servidor de Aplicação';
   Application.CreateForm(TPostoServerMain, PostoServerMain);
-  Application.CreateForm(TRN_TB_VENDA_DAO, RN_TB_VENDA_DAO);
   Application.Run;
 end.
 

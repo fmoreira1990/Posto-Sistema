@@ -4,20 +4,11 @@ interface
 
 uses
   System.SysUtils, System.Classes, Datasnap.DSServer,
-  Datasnap.DSAuth, Datasnap.DSProviderDataModuleAdapter, uDsmBase,
-  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
-  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
-  FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.Client,
-  FireDAC.Comp.DataSet, FireDAC.UI.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool,
-  FireDAC.Phys, FireDAC.Phys.FB, FireDAC.Phys.FBDef, FireDAC.VCLUI.Wait,
-  FireDAC.Stan.StorageBin, FireDAC.Stan.StorageJSON;
+  Datasnap.DSAuth, Datasnap.DSProviderDataModuleAdapter,
+  uDsmBase;
 
 type
   TDsmTanque = class(TDsmBase)
-    QueryListaID_TANQUE: TIntegerField;
-    QueryListaID_PRODUTO: TIntegerField;
-    QueryListaCAPACIDADE: TFMTBCDField;
-    QueryListaNUMERO: TIntegerField;
   private
     { Private declarations }
   protected

@@ -12,13 +12,14 @@ uses
 type
   TDynamicConnectionFireDAC = class(TInterfacedObject, IDynamicConnection)
   strict private
-    FRefCount: integer;
   private
     FConnection: TFDConnection;
     function GetConnection: TFDConnection;
   protected
   public
     constructor Create;
+    procedure BeforeDestruction; override;
+
     property Connection: TFDConnection read GetConnection;
 
   end;
@@ -28,6 +29,12 @@ implementation
 uses
   System.SysUtils,
   FireDAC.Stan.Option;
+
+procedure TDynamicConnectionFireDAC.BeforeDestruction;
+begin
+  inherited;
+  FreeAndNil(FConnection);
+end;
 
 constructor TDynamicConnectionFireDAC.Create;
 begin

@@ -37,7 +37,7 @@ type
     ['{15A754D1-4F2F-4E16-81E3-E808286A4585}']
     function ListVenda: TStream;
     function updateVendas(const AStream: TStream): Boolean;
-    function Venda(const pIdTanque: integer): TStream;
+    function Venda(const pIdVenda: integer): TStream;
     function RelatorioVendas: TStream;
   end;
 

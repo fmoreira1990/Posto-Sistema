@@ -11,20 +11,16 @@ uses
 type
   TRN_BASE = class(TInterfacedObject, IBusiness)
   strict private
-    FRefCount: integer;
   private
     FDAO: TRN_BASE_DAO;
     function GetDAO: TRN_BASE_DAO;
     procedure SetDAO(const Value: TRN_BASE_DAO);
-    function _AddRef: Integer;
-    function _Release: Integer;
-    function QueryInterface(const IID: TGUID; out Obj): HResult;
 
   protected
-
     function List(const pQuery: TFDQuery): TStream; virtual;
     function Unique(const pID: integer; const pQuery: TFDQuery): TStream; virtual;
     function Update(const AStream: TStream; const pSchemaAdapter: TFDSchemaAdapter): Boolean; virtual;
+
   public
     class function New: IBusiness; virtual;
     procedure BeforeDestruction; override;
@@ -35,7 +31,6 @@ type
 implementation
 
 uses
-  Winapi.Windows,
   System.SysUtils,
   FireDAC.Stan.Intf;
 
@@ -82,14 +77,6 @@ begin
   Result := Self.Create;
 end;
 
-function TRN_BASE.QueryInterface(const IID: TGUID; out Obj): HResult;
-begin
-  if GetInterface(IID, Obj) then
-    Result := 0
-  else
-    Result := E_NOINTERFACE;
-end;
-
 procedure TRN_BASE.SetDAO(const Value: TRN_BASE_DAO);
 begin
   FDAO := Value;
@@ -131,18 +118,6 @@ begin
     E: Exception do
       raise;
   end;
-end;
-
-function TRN_BASE._AddRef: Integer;
-begin
-  Result := InterlockedIncrement(FRefCount)
-end;
-
-function TRN_BASE._Release: Integer;
-begin
-  Result := InterlockedDecrement(FRefCount);
-  if fRefCount = 0 then
-    Destroy;
 end;
 
 procedure TRN_BASE.BeforeDestruction;

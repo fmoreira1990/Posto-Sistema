@@ -4,22 +4,11 @@ interface
 
 uses System.SysUtils, System.Classes, System.Json,
   DataSnap.DSProviderDataModuleAdapter,
-  Datasnap.DSServer, Datasnap.DSAuth, FireDAC.Stan.Intf, FireDAC.Stan.Option,
-  FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
-  FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.FB,
-  FireDAC.Phys.FBDef, FireDAC.VCLUI.Wait, Data.DB, FireDAC.Comp.Client,
-  FireDAC.Phys.IBBase, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
-  FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Stan.StorageBin,
-  FireDAC.Stan.StorageJSON, uPostoServerInterface;
+  Datasnap.DSServer, Datasnap.DSAuth,
+  uPostoServerInterface, FireDAC.Comp.Client;
 
 type
   TDsmBase = class(TDSServerModule)
-    QueryBase: TFDQuery;
-    FDSchemaAdapter: TFDSchemaAdapter;
-    QueryLista: TFDQuery;
-    FDConnection1: TFDConnection;
-    FDStanStorageJSONLink2: TFDStanStorageJSONLink;
-    FDStanStorageBinLink2: TFDStanStorageBinLink;
   private
     { Private declarations }
     FBusiness: IBusiness;
