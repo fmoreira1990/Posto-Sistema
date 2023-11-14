@@ -57,7 +57,7 @@ begin
   FConnection.ResourceOptions.DirectExecute := True;
   FConnection.UpdateOptions.FastUpdates := False;
   FConnection.Params.Add('DriverID=FB');
-  FConnection.Params.Add('Database=D:\Posto-Sistema\POSTO.FDB');
+  FConnection.Params.Add('Database=' + ExtractFilePath(Paramstr(0)) + 'POSTO.FDB');
   FConnection.Params.Add('Password=masterkey');
   FConnection.Params.Add('Server=localhost');
   FConnection.Params.Add('User_Name=SYSDBA');

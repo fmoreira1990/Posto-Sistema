@@ -19,3 +19,4 @@ Source/Server/Dynamic/__history
 *.local
 *.dres
 *.identcache
+Source/Server/PostoServer.exe
